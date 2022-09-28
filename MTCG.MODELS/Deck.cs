@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG.MODELS
+namespace MTCG.Models
 {
     public class Deck
     {
@@ -16,6 +16,7 @@ namespace MTCG.MODELS
 
         private Deck()
         {
+
         }
 
         void CreateTopDeck(Stack myStack)

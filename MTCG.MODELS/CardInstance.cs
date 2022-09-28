@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MTCG.Models
 {
-    internal class CardInstance
+    public class CardInstance
     {
         public CardTemplate ThisCard { get; }
         public int Rating { get; }
