@@ -5,25 +5,27 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG.BL
+namespace MTCG.Models
 {
-    internal class Stack
+    public class Stack
     {
-        private List<CardInstance> ListOfCards = new List<CardInstance>();
+        private List<CardInstance> listOfCards = new List<CardInstance>();
+        public List<CardInstance> ListOfCards {
+            get { return listOfCards; }
+        }
 
         public Stack()
         {
-
         }
 
         public void AddCard(CardInstance CardToBeAdded)
         {
-            ListOfCards.Add(CardToBeAdded);
+            listOfCards.Add(CardToBeAdded);
         }
 
         public void PrintCards()
         {
-            foreach (CardInstance card in ListOfCards)
+            foreach (CardInstance card in listOfCards)
             {
                 card.printCard();
             }

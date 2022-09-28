@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG.BL
+namespace MTCG.Models
 {
-    enum Types
+    public enum Types
     {
         NoType, Spell, Monster
     };
 
-    enum Elements
+    public enum Elements
     {
         NoElement, Water, Fire, Nature, Normal
     };
 
-    enum Factions
+    public enum Factions
     {
         NoFaction, Goblin, Elf, Dragon, Kraken
     }
