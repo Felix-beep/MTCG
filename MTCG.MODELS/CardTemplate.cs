@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG.BL
+namespace MTCG.Models
 {
-    internal class CardTemplate
+    public class CardTemplate
     {
         public string Name { get; }
         public int Power { get; }

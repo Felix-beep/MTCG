@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace MTCG.BL
+namespace MTCG.Models
 {
     internal class CardInstance
     {
