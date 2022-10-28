@@ -1,21 +1,34 @@
-﻿
-using MTCG.Models;
+﻿using MTCG.Models;
+using MTCG.BL;
+using MTCG.MODELS;
 
 Console.WriteLine("Hello, World!");
 
-CardTemplate myCard1 = new CardTemplate("Goblin", 20, Elements.Normal, Types.Monster, Factions.Goblin);
-CardTemplate myCard2 = new CardTemplate("Elf", 20, Elements.Normal, Types.Monster, Factions.Elf);
+CardTemplate myCard1 = new CardTemplate("Goblin", 20, Elements.Fire, Types.Monster, Factions.Goblin);
+CardTemplate myCard2 = new CardTemplate("Elf", 20, Elements.Nature, Types.Monster, Factions.Elf);
 
 User firstUser = new User(1, "Rupert");
-firstUser.AddCard(myCard1);
-firstUser.AddCard(myCard1);
-firstUser.AddCard(myCard1);
-firstUser.AddCard(myCard1);
+for( int i = 0; i < 4; i++ )
+{
+    CardInstance newCard = new CardInstance(myCard1);
+    firstUser.AddCard(newCard);
+    firstUser.AddCardToDeck(newCard);
+}
 
 User secondUser = new User(2, "Stefan");
-secondUser.AddCard(myCard2);
-secondUser.AddCard(myCard2);
-secondUser.AddCard(myCard2);
-secondUser.AddCard(myCard2);
+for (int i = 0; i < 4; i++)
+{
+    CardInstance newCard = new CardInstance(myCard2);
+    secondUser.AddCard(newCard);
+    secondUser.AddCardToDeck(newCard);
+}
 
-firstUser.CardList.PrintCards();
+firstUser.CardList.Print();
+
+CombatHandler myCombat = new CombatHandler();
+
+myCombat.AddPlayer(firstUser);
+
+myCombat.AddPlayer(secondUser);
+
+myCombat.StartCombat();

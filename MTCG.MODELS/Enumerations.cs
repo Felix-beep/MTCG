@@ -13,11 +13,11 @@ namespace MTCG.Models
 
     public enum Elements
     {
-        NoElement, Water, Fire, Nature, Normal
+        NoElement, Water, Fire, Nature
     };
 
     public enum Factions
     {
-        NoFaction, Goblin, Elf, Dragon, Kraken
+        NoFaction, Goblin, Elf, Mermaid, Dragon, Kraken, Hydra
     }
 }
