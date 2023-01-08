@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTCG.MODELS", "MTCG.MODELS\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTCG.Test", "MTCG.Test\MTCG.Test.csproj", "{AE9FFADF-3688-4443-A8CF-BDC361E9CA66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTCG.Backend", "MTCG.Backend\MTCG.Backend.csproj", "{307A8C3E-7D04-4B5E-AE62-959D1F3A4C8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTCG.TCPServer", "..\..\..\Downloads\TCPListener\MTCG.TCPServer.csproj", "{80830C3E-535B-434F-B589-0EB834948328}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{AE9FFADF-3688-4443-A8CF-BDC361E9CA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE9FFADF-3688-4443-A8CF-BDC361E9CA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE9FFADF-3688-4443-A8CF-BDC361E9CA66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{307A8C3E-7D04-4B5E-AE62-959D1F3A4C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{307A8C3E-7D04-4B5E-AE62-959D1F3A4C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{307A8C3E-7D04-4B5E-AE62-959D1F3A4C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{307A8C3E-7D04-4B5E-AE62-959D1F3A4C8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80830C3E-535B-434F-B589-0EB834948328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80830C3E-535B-434F-B589-0EB834948328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80830C3E-535B-434F-B589-0EB834948328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80830C3E-535B-434F-B589-0EB834948328}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

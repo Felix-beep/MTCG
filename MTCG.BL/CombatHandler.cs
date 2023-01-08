@@ -2,7 +2,6 @@
 using System.Diagnostics.Metrics;
 using System.Reflection;
 using System.Reflection.Metadata;
-
 using MTCG.Models;
 using MTCG.MODELS;
 
@@ -19,12 +18,6 @@ namespace MTCG.BL
         {
             Deck1 = null;
             Deck2 = null;
-        }
-
-        public void AddPlayer(User user)
-        {
-            AddPlayer(user.DeckList);
-            return;
         }
 
         public void AddPlayer(Deck deck)

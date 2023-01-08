@@ -12,7 +12,7 @@ namespace MTCG.MODELS
     internal static class Shop
     { 
         public static bool BuyPack(User buyer)
-        {
+        {   
             if(buyer.Gold >= 5)
             {
                 Pack RandomPack = PackHandler.GetRandomPack();
