@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTCG.Test", "MTCG.Test\MTCG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTCG.TCPServer", "..\..\..\Downloads\TCPListener\MTCG.TCPServer.csproj", "{80830C3E-535B-434F-B589-0EB834948328}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTCG.DatabaseAccess", "MTCG.DatabaseAccess\MTCG.DatabaseAccess.csproj", "{038C5CBE-A5C2-4D69-98A3-EC5812F2EDB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{DF5520BF-59F1-4A1F-A4AB-F7D8F6E7CC43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{80830C3E-535B-434F-B589-0EB834948328}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80830C3E-535B-434F-B589-0EB834948328}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80830C3E-535B-434F-B589-0EB834948328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{038C5CBE-A5C2-4D69-98A3-EC5812F2EDB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{038C5CBE-A5C2-4D69-98A3-EC5812F2EDB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{038C5CBE-A5C2-4D69-98A3-EC5812F2EDB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{038C5CBE-A5C2-4D69-98A3-EC5812F2EDB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF5520BF-59F1-4A1F-A4AB-F7D8F6E7CC43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF5520BF-59F1-4A1F-A4AB-F7D8F6E7CC43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF5520BF-59F1-4A1F-A4AB-F7D8F6E7CC43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF5520BF-59F1-4A1F-A4AB-F7D8F6E7CC43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

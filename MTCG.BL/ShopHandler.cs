@@ -1,37 +1,38 @@
-﻿using MTCG.MODELS;
+﻿using MTCG.Models;
+using MTCG.MODELS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MTCG.BL
 {
-    public static class DeckHandler
+    public static class ShopHandler
     {
-        public static CurlResponse CreateDeck(string Username, List<string> CardIds)
+        public static CurlResponse CreateTrade(string Username, string Id, string CardId, string Name, int Rating)
         {
             CurlResponse response = new();
 
             return response;
         }
 
-        public static CurlResponse GetDeck(string Username)
+        public static CurlResponse BuyTrade(string Id)
         {
             CurlResponse response = new();
 
             return response;
         }
 
-
-        public static CurlResponse UpdateDeck(string Username, List<string> CardIds)
+        public static CurlResponse DeleteTrade(string Id)
         {
             CurlResponse response = new();
 
             return response;
         }
 
-        public static CurlResponse ValidateDeck(string Username)
+        public static CurlResponse GetTradeDeals()
         {
             CurlResponse response = new();
 

@@ -1,4 +1,4 @@
-﻿using MTCG.Models;
+﻿using MTCG.MODELS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,25 +7,48 @@ using System.Threading.Tasks;
 
 namespace MTCG.BL
 {
-    internal static class UserHandler
+    public static class UserHandler
     {
-        /*public static User createNewUser()
+        public static CurlResponse CreateUser(string Username, string Password)
         {
-            //return new User();
-        }*/
+            CurlResponse response = new();
 
-        public static bool moveElo(User winner, User loser, int Elo)
+            return response;
+        }
+
+        public static CurlResponse GetUser(string Username)
         {
-            if(loser.Elo < Elo)
-            {
-                Elo = loser.Elo;
-            }
-            if (winner.Elo + Elo > 1000)
-            {
-                Elo = 1000 - winner.Elo;
-            }
-            bool noerror = winner.AddElo(Elo) && loser.RemoveElo(Elo);
-            return noerror;
+            CurlResponse response = new();
+
+            return response;
+        }
+
+        public static CurlResponse LoginUser(string Username, string Password)
+        {
+            CurlResponse response = new();
+
+            return response;
+        }
+
+        public static CurlResponse UpdateUser(string Username, string Name, string Bio, string Image)
+        {
+            CurlResponse response = new();
+
+            return response;
+        }
+
+        public static CurlResponse AuthenticateUser(string Username)
+        {
+            CurlResponse response = new();
+
+            return response;
+        }
+
+        public static CurlResponse ValidateUser(string Username)
+        {
+            CurlResponse response = new();
+
+            return response;
         }
     }
 }
