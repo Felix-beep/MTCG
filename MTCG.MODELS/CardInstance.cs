@@ -4,24 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Collections.Specialized.BitVector32;
 
-namespace MTCG.Models
+namespace MTCG.MODELS
 {
-    internal class CardInstance
+    public class CardInstance : IPrintable
     {
-        public CardTemplate ThisCard { get; }
+        public CardTemplate BaseCard { get; }
         public int Rating { get; }
+
+        public int ID { get; }
+
+        public int EffectivePower
+        {
+            get
+            {
+                double calc = BaseCard.Power * (1 + (double)Rating / 100);
+                return (int)Math.Ceiling(calc);
+            }
+        }
 
         public CardInstance(CardTemplate thisCard)
         {
-            ThisCard = thisCard;
+            BaseCard = thisCard;
             Random r = new Random();
             Rating = r.Next(0, 100);
+            ID = r.Next(0, 1000000);
         }
 
-        public void printCard()
+        public CardInstance(CardTemplate thisCard, int rating)
         {
-            Console.WriteLine($"Hello, I am a {ThisCard.Name} with a rating of {Rating}%");
+            BaseCard = thisCard;
+            Rating = rating;
+        }
+
+        public override void Print()
+        {
+            Console.WriteLine($"[{BaseCard.Name}]");
+            Console.WriteLine($"[Power: {BaseCard.Power} with a Rating of {Rating}% and Effective Power of {EffectivePower}]");
+            Console.WriteLine($"[Type: {BaseCard.Type}] [Faction: {BaseCard.Faction}] [Element: {BaseCard.Element}]\n");
         }
     }
 }
