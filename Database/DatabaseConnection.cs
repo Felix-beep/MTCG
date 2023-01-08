@@ -10,33 +10,35 @@ namespace Database
 {
     public static class DatabaseConnection
     {
-        static void Main(string[] args) 
+        public static NpgsqlConnection Connection { get; set; }
+
+        public static void OpenConnection() 
         {
             bool boolfound = false;
 
             string ip = "127.0.0.1";
             string port = "5432";
-            string user = "postgre";
+            string user = "postgres";
             string password = "DY8q6EGDEfUTW7KYCJsY";
             string database = "MTCGDatabase";
 
-            using (NpgsqlConnection conn = new NpgsqlConnection($"Server={ip}; Port={port}; User Id={user}; Password={password}; Database={database}"))
-            {
-                conn.Open();
+            NpgsqlConnection conn = new NpgsqlConnection($"Server={ip}; Port={port}; User Id={user}; Password={password}; Database={database}");
 
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT * FROM Table1", conn);
-                NpgsqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read())
-                {
-                    boolfound = true;
-                    Console.WriteLine("connection established");
-                }
-                if (boolfound == false)
-                {
-                    Console.WriteLine("Data does not exist");
-                }
-                dr.Close();
+            conn.Open();
+
+            if(conn.State == System.Data.ConnectionState.Open)
+            {
+                Console.WriteLine("Successfully opened connection");
+                Connection = conn;
+            } else
+            {
+                Connection = null;
             }
+        }
+
+        static void Main(string[] args)
+        {
+            OpenConnection();
         }
     }
 }
