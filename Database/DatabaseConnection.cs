@@ -6,23 +6,20 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Database
+namespace MTCG.Database
 {
-    public static class DatabaseConnection
+    public class DatabaseConnection
     {
-        public static NpgsqlConnection Connection { get; set; }
+        public static NpgsqlConnection Connection { get; set; } = null;
 
-        public static void OpenConnection() 
+        public void OpenConnection() 
         {
-            bool boolfound = false;
-
             string ip = "127.0.0.1";
             string port = "5432";
             string user = "postgres";
-            string password = "DY8q6EGDEfUTW7KYCJsY";
             string database = "MTCGDatabase";
 
-            NpgsqlConnection conn = new NpgsqlConnection($"Server={ip}; Port={port}; User Id={user}; Password={password}; Database={database}");
+            NpgsqlConnection conn = new NpgsqlConnection($"Server={ip}; Port={port}; User Id={user}; Database={database}");
 
             conn.Open();
 
@@ -30,15 +27,23 @@ namespace Database
             {
                 Console.WriteLine("Successfully opened connection");
                 Connection = conn;
-            } else
-            {
-                Connection = null;
             }
         }
 
-        static void Main(string[] args)
+        public DatabaseConnection() { 
+            if(Connection == null)
+            {
+                OpenConnection();
+            }
+        }
+
+        ~DatabaseConnection()
         {
-            OpenConnection();
+            if(Connection != null)
+            {
+                Connection.Close();
+                Connection = null;
+            }
         }
     }
 }
