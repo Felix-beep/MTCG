@@ -8,41 +8,23 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace MTCG.MODELS
 {
-    public class CardInstance : IPrintable
+    public class CardInstance
     {
-        public CardTemplate BaseCard { get; }
+        public string CardName { get; }
         public int Rating { get; }
+        public string ID { get; }
 
-        public int ID { get; }
 
-        public int EffectivePower
+        public CardTemplate BaseCard { get; }
+        public int EffectivePower { get; }
+
+        public CardInstance(int Rating, string Cardname, string CardID, CardTemplate BaseCard)
         {
-            get
-            {
-                double calc = BaseCard.Power * (1 + (double)Rating / 100);
-                return (int)Math.Ceiling(calc);
-            }
-        }
-
-        public CardInstance(CardTemplate thisCard)
-        {
-            BaseCard = thisCard;
-            Random r = new Random();
-            Rating = r.Next(0, 100);
-            ID = r.Next(0, 1000000);
-        }
-
-        public CardInstance(CardTemplate thisCard, int rating)
-        {
-            BaseCard = thisCard;
-            Rating = rating;
-        }
-
-        public override void Print()
-        {
-            Console.WriteLine($"[{BaseCard.Name}]");
-            Console.WriteLine($"[Power: {BaseCard.Power} with a Rating of {Rating}% and Effective Power of {EffectivePower}]");
-            Console.WriteLine($"[Type: {BaseCard.Type}] [Faction: {BaseCard.Faction}] [Element: {BaseCard.Element}]\n");
+            this.CardName = Cardname;
+            this.Rating = Rating;
+            this.ID = CardID;
+            this.BaseCard = BaseCard;
+            this.EffectivePower = BaseCard.Power * (1 + Rating / 100);
         }
     }
 }

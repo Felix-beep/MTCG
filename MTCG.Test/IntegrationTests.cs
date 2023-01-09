@@ -17,9 +17,9 @@ namespace MTCG.Test
         [Test]
         public void IntegrationTest_CreateCards_CreateUser_CreateDecks_PerformCombat()
         {
-            UserAccess.CreateUser("Felix", "Kainz");
-            User Felix = UserAccess.GetUser("Felix");
-            Assert.That(Felix.Name == "Felix");
+            UserAccess.CreateUser("Elu", "Kainz");
+            User Elu = UserAccess.GetUser("Elu");
+            Assert.That(Elu.Name == "Elu");
         }
     }
 }
