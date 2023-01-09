@@ -10,13 +10,13 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class CardTemplateAccess
     {
-        public static bool CreateCardTemplate(string Cardname, int Power, string Tpye, string Faction, string Element)
+        public static bool CreateCardTemplate(string Cardname, int Power, string Type, string Faction, string Element)
         {
             string text = "INSERT INTO \"CardTemplate\" VALUES ( @cn, @p, @t, @f, @e )";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("cn", Cardname);
             command.Parameters.AddWithValue("p", Power);
-            command.Parameters.AddWithValue("t", Tpye);
+            command.Parameters.AddWithValue("t", Type);
             command.Parameters.AddWithValue("f", Faction);
             command.Parameters.AddWithValue("e", Element);
             return DatabaseAccess.GetWriter(command);

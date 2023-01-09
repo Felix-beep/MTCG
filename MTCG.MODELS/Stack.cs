@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace MTCG.MODELS
 {
-    public class Stack : CardList
+    public class Stack
     {
+        public List<CardInstance> CardList { get; }
+        public string Username { get; }
 
+        public Stack(string Username)
+        {
+            CardList = new List<CardInstance>();
+            this.Username = Username;
+        }
     }
 }
