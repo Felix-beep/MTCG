@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -7,40 +8,21 @@ using System.Threading.Tasks;
 
 namespace MTCG.MODELS
 {
-    public class Pack : CardList
+    public class Pack
     {
-        public int Packsize { get; }
+        public string Owner { get; }
+        public string PackID { get; }
+        public List<CardTemplate> Templates { get; } 
 
-        public Pack(int packsize)
+        public Pack(string Username, string PackId)
         {
-            Packsize = packsize;
+            Templates= new List<CardTemplate>();
+            Owner = Username;
         }
 
-        public void fillRandomly(List<CardTemplate> listOfAllCards)
+        public void AddCard(CardTemplate template)
         {
-            Random r = new Random();
-            if (listOfAllCards.Count == 0) return;
-            for (int i = Size; i < Packsize; i++)
-            {
-                int index = 0;
-                if (listOfAllCards.Count > 1) { index = r.Next(0, listOfAllCards.Count - 1); }
-                AddCard(new CardInstance(listOfAllCards[index]));
-            }
-            return;
-        }
-
-        public void AddCard(CardTemplate cardToAdd)
-        {
-            if (Size >= Packsize) return;
-            AddCard(new CardInstance(cardToAdd));
-            return;
-        }
-
-        public override void AddCard(CardInstance cardToAdd)
-        {
-            if (Size >= Packsize) return;
-            AddCard(cardToAdd);
-            return;
+            Templates.Add(template);
         }
     }
 }

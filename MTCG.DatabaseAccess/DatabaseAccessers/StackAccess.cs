@@ -45,10 +45,10 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
             var reader = DatabaseAccess.GetReader(command);
-
-            if (reader == null) return null;
-
             Stack Stack = new(Username);
+
+            if (reader == null) return Stack;
+
             while (reader.Read())
             {
                 int Rating = reader.GetInt32(1);
@@ -67,19 +67,23 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return Stack;
         }
 
-        public static bool EditUser(string Username, string Bio, string Picture)
+        public static bool DeleteFromStack(string Username, string cardId)
         {
-            string text = "UPDATE \"User\" SET \"Bio\" = @b, \"Picture\" = @p WHERE \"Username\" = @u ;";
+            string text = "DELETE FROM \"Stack\" WHERE \"USERNAME\" = @u AND \"CardID\" = @ci";
             var command = new NpgsqlCommand(text);
-            command.Parameters.AddWithValue("@b", Bio);
-            command.Parameters.AddWithValue("@p", Picture);
-            command.Parameters.AddWithValue("@u", Username);
+            command.Parameters.AddWithValue($"u", Username);
+            command.Parameters.AddWithValue($"ci", cardId);
             return DatabaseAccess.GetWriter(command);
         }
 
-        public static bool DeleteAllUsers()
+        public static bool AddToStack(string Username, List<string> Cards)
         {
-            string text = "DELETE FROM \"User\";";
+            return CreateStack(Username, Cards);
+        }
+
+        public static bool DeleteAllStacks()
+        {
+            string text = "DELETE FROM \"Stack\";";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

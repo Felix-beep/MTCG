@@ -10,7 +10,27 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class DeckAccess
     {
-        public static Deck GetStack(string Username)
+        public static bool CreateDeck(string Username, List<string> Cards)
+        {
+            if (Cards.Count == 0) return false;
+            string text = "INSERT INTO \"Deck\" VALUES";
+            for (int i = 1; i <= Cards.Count; i++)
+            {
+                text += $" (@u{i}, @p{i})";
+                if (i != Cards.Count)
+                {
+                    text += ",";
+                }
+            }
+            var command = new NpgsqlCommand(text);
+            for (int i = 1; i <= Cards.Count; i++)
+            {
+                command.Parameters.AddWithValue($"u{i}", Username);
+                command.Parameters.AddWithValue($"p{i}", Cards[i - 1]);
+            }
+            return DatabaseAccess.GetWriter(command);
+        }
+        public static Deck GetDeck(string Username)
         {
             string text = "SELECT \"Deck\".\"Username\", ";
             text +=         "\"CardInstance\".\"Rating\", \"CardInstance\".\"CardID\", ";
@@ -42,6 +62,27 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             }
 
             return newDeck;
+        }
+
+        public static bool DeleteFromDeck(string Username, string cardId)
+        {
+            string text = "DELETE FROM \"Deck\" WHERE \"USERNAME\" = @u AND \"CardID\" = @ci";
+            var command = new NpgsqlCommand(text);
+            command.Parameters.AddWithValue($"u", Username);
+            command.Parameters.AddWithValue($"ci", cardId);
+            return DatabaseAccess.GetWriter(command);
+        }
+
+        public static bool AddToDeck(string Username, List<string> Cards)
+        {
+            return CreateDeck(Username, Cards);
+        }
+
+        public static bool DeleteAllStacks()
+        {
+            string text = "DELETE FROM \"Deck\";";
+            var command = new NpgsqlCommand(text);
+            return DatabaseAccess.GetWriter(command);
         }
     }
 }

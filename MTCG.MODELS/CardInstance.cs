@@ -24,7 +24,23 @@ namespace MTCG.MODELS
             this.Rating = Rating;
             this.ID = CardID;
             this.BaseCard = BaseCard;
-            this.EffectivePower = BaseCard.Power * (1 + Rating / 100);
+            this.EffectivePower = CalculateEffectivePower();
+        }
+
+        public CardInstance(CardTemplate BaseCard) 
+        {
+            this.CardName = BaseCard.Name;
+            Random r = new Random();
+            this.Rating = r.Next(0, 101);
+            Guid myuuid = Guid.NewGuid();
+            this.ID = myuuid.ToString();
+            this.BaseCard = BaseCard;
+            this.EffectivePower = CalculateEffectivePower();
+        }
+
+        private int CalculateEffectivePower()
+        {
+            return BaseCard.Power * (1 + this.Rating / 100);
         }
     }
 }
