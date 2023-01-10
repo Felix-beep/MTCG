@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.MODELS
 {
-    public class Deck : CardList
+    public class Deck
     {
         public string Username { get; }
 

@@ -44,7 +44,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return DatabaseAccess.GetWriter(command);
         }
 
-        public static bool Deleteleaderboard()
+        public static bool DeleteLeaderboard()
         {
             string text = "DELETE FROM \"Leaderboard\";";
             var command = new NpgsqlCommand(text);

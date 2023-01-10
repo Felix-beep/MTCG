@@ -12,39 +12,46 @@ namespace MTCG.DatabaseAccess
 {
     public static class DatabaseAccess
     {
-
-        public static NpgsqlDataReader GetReader(NpgsqlCommand Command)
+        private static Mutex LockAccess = new Mutex();
+        public static NpgsqlDataReader? GetReader(NpgsqlCommand Command)
         {
-            DatabaseConnection myConnection = new DatabaseConnection();
+            NpgsqlDataReader? reader;
+            LockAccess.WaitOne();
             try
             {
                 Console.WriteLine(Command.CommandText);
                 Command.Connection = DatabaseConnection.Connection;
-                var reader = Command.ExecuteReader();
+                reader = Command.ExecuteReader();
+                LockAccess.ReleaseMutex();
                 return reader;
                 
             } catch (Exception ex)
             {
                 Console.WriteLine($"Error executing Command - ({ex})");
-                return null;
+                reader = null;
             }
+            LockAccess.ReleaseMutex();
+            return reader;
         }
 
         public static bool GetWriter(NpgsqlCommand Command)
         {
-            DatabaseConnection myConnection = new DatabaseConnection();
+            bool success;
+            LockAccess.WaitOne();
             try
             {
                 Console.WriteLine(Command.CommandText);
                 Command.Connection = DatabaseConnection.Connection;
                 Command.ExecuteNonQuery();
-                return true;
+                success = true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error executing Command - ({ex})");
-                return false;
+                success = false;
             }
+            LockAccess.ReleaseMutex();
+            return success;
         }
     }
 }

@@ -3,16 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MTCG.Database
 {
-    public class DatabaseConnection
+    public static class DatabaseConnection
     {
-        public static NpgsqlConnection Connection { get; set; } = null;
+        public static NpgsqlConnection connection = null;
+        public static NpgsqlConnection Connection
+        {
+            get
+            {
+                if (connection == null) OpenConnection();
+                return connection;
+            }
+            private set
+            {
+                connection = value;
+            }
+        }
 
-        public void OpenConnection() 
+        public static void OpenConnection() 
         {
             string ip = "127.0.0.1";
             string port = "5432";
@@ -26,24 +39,11 @@ namespace MTCG.Database
             if(conn.State == System.Data.ConnectionState.Open)
             {
                 Console.WriteLine("Successfully opened connection");
-                Connection = conn;
+                connection = conn;
+                return;
             }
-        }
-
-        public DatabaseConnection() { 
-            if(Connection == null)
-            {
-                OpenConnection();
-            }
-        }
-
-        ~DatabaseConnection()
-        {
-            if(Connection != null)
-            {
-                Connection.Close();
-                Connection = null;
-            }
+            connection = null;
+            return;
         }
     }
 }
