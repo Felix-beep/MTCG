@@ -30,8 +30,7 @@ namespace MTCG.MODELS
         public CardInstance(CardTemplate BaseCard) 
         {
             this.CardName = BaseCard.Name;
-            Random r = new Random();
-            this.Rating = r.Next(0, 101);
+            this.Rating = GetRandomRating();
             Guid myuuid = Guid.NewGuid();
             this.ID = myuuid.ToString();
             this.BaseCard = BaseCard;
@@ -41,6 +40,12 @@ namespace MTCG.MODELS
         private int CalculateEffectivePower()
         {
             return BaseCard.Power * (1 + this.Rating / 100);
+        }
+
+        public static int GetRandomRating()
+        {
+            Random r = new Random();
+            return r.Next(0, 101);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class CardInstaceAccess
     {
-        public static bool CreateCardInstance(string Rating, int Cardname, string CardID)
+        public static bool CreateCardInstance(int Rating, string Cardname, string CardID)
         {
             string text = "INSERT INTO \"CardInstance\" (\"Rating\", \"Cardname\", \"CardID\") VALUES ( @r, @cn, @ci)";
             var command = new NpgsqlCommand(text);

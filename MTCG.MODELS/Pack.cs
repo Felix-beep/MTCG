@@ -10,14 +10,12 @@ namespace MTCG.MODELS
 {
     public class Pack
     {
-        public string Owner { get; }
         public string PackID { get; }
         public List<CardTemplate> Templates { get; } 
 
-        public Pack(string Username, string PackId)
+        public Pack(string PackId)
         {
             Templates= new List<CardTemplate>();
-            Owner = Username;
         }
 
         public void AddCard(CardTemplate template)

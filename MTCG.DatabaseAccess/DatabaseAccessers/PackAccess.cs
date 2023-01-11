@@ -44,6 +44,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             var command = new NpgsqlCommand(text);
             var reader = DatabaseAccess.GetReader(command);
             List<CardInstance> Cards = new();
+            string PackID = "";
 
             if (reader == null) return Cards;
 
@@ -55,12 +56,33 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 string Element = reader.GetString(3);
                 string Faction = reader.GetString(4);
 
+                // get first PackID that was found
+                if(PackID == "") PackID = reader.GetString(5);
+
                 CardTemplate BaseCard = new(Name, Power, Element, Type, Faction);
                 CardInstance CardInstance = new(BaseCard);
                 Cards.Add(CardInstance);
             }
 
+            if(!DeleteAllPacksWithID(PackID))
+            {
+                Console.WriteLine("Error when deleting pack by ID!");
+                return new();
+            }
+
+            if(Cards.Count != 4)
+            {
+                return PopPack();
+            }
+
             return Cards;
+        }
+        public static bool DeleteAllPacksWithID(string PackID)
+        {
+            string text = "DELETE FROM \"Pack\" WHERE \"Pack\".PackID = @pi;";
+            var command = new NpgsqlCommand(text);
+            command.Parameters.AddWithValue($"pi", PackID);
+            return DatabaseAccess.GetWriter(command);
         }
 
         public static bool DeleteAllPacks()

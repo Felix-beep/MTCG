@@ -14,7 +14,7 @@ namespace MTCG.MODELS
         public bool Success { get; set; }
         public string Message { get; set; }
 
-        public JsonArray? JsonList { get; set; }
+        public JsonObject? JsonList { get; set; }
         public bool Json { get; set; }
 
         public CurlResponse() { 
