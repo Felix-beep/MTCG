@@ -14,7 +14,6 @@ namespace MTCG.MODELS
         public int Rating { get; }
         public string ID { get; }
 
-
         public CardTemplate BaseCard { get; }
         public int EffectivePower { get; }
 

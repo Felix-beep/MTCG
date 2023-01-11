@@ -19,20 +19,28 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return DatabaseAccess.GetWriter(command);
         }
 
-        public static Stats GetLeaderbaord(string Username)
+        public static List<Tuple<int, string, int>> GetLeaderboard()
         {
             string text = "SELECT * FROM \"Leaderboard\" ORDER BY \"Elo\" DESC";
             var command = new NpgsqlCommand(text);
-            command.Parameters.AddWithValue("u", Username);
             var reader = DatabaseAccess.GetReader(command);
 
             if (reader == null) return null;
-            reader.Read();
-            string Name = reader.GetString(0);
-            int Elo = reader.GetInt32(1);
-            int Wins = reader.GetInt32(2);
-            int Losses = reader.GetInt32(3);
-            return new Stats(Name, Elo, Wins, Losses);
+
+            List<Tuple<int, string, int>> Ranking = new();
+
+            int Placement = 0;
+            while (reader.Read() != null)
+            {
+                Placement++;
+                int Place = Placement;
+                string Name = reader.GetString(0);
+                int Elo = reader.GetInt32(1);
+
+                Ranking.Add(new(Place, Name, Elo));
+            }
+
+            return Ranking;
         }
 
         public static bool UpdateLeaderboard(string Username, int Elo)

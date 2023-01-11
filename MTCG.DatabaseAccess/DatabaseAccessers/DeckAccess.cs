@@ -42,10 +42,10 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
             var reader = DatabaseAccess.GetReader(command);
-
-            if (reader == null) return null;
-
             Deck newDeck = new(Username);
+
+            if (reader == null) return newDeck;
+
             while (reader.Read())
             {
                 int Rating = reader.GetInt32(1);
@@ -73,6 +73,14 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return DatabaseAccess.GetWriter(command);
         }
 
+        public static bool DeleteDeck(string Username)
+        {
+            string text = "DELETE FROM \"Deck\" WHERE \"USERNAME\" = @u";
+            var command = new NpgsqlCommand(text);
+            command.Parameters.AddWithValue($"u", Username);
+            return DatabaseAccess.GetWriter(command);
+        }
+        
         public static bool AddToDeck(string Username, List<string> Cards)
         {
             return CreateDeck(Username, Cards);

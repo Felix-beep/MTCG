@@ -37,7 +37,8 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
         {
             string text = "SELECT \"Stack\".\"Username\", ";
             text +=         "\"CardInstance\".\"Rating\", \"CardInstance\".\"CardID\", ";
-            text +=         "\"CardTemplate\".\"Cardname\", \"CardTemplate\".\"Power\", \"CardTemplate\".\"Type\",  \"CardTemplate\".\"Faction\"";
+            text +=         "\"CardTemplate\".\"Cardname\", \"CardTemplate\".\"Power\", \"CardTemplate\".\"Type\",  \"CardTemplate\".\"Faction\" ";
+            text +=         "FROM \"STACK\" ";
             text +=         "INNER JOIN \"CardInstance\" ON \"CardInstance\".\"CardID\" = \"Stack\".\"CardId\" ";
             text +=         "INNER JOIN \"CardTemplate\" ON \"CardTemplate\".\"Cardname\" = \"CardInstance\".\"Cardname\" ";
             text +=         "WHERE \"Stack\".\"Username\" = @u";
@@ -65,6 +66,20 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             }
 
             return Stack;
+        }
+        public static bool FindCardInStack(string Username, string CardID)
+        {
+            string text =   "SELECT \"Username\", \"CardId\" ";
+            text +=         "FROM \"STACK\" ";
+            text +=         "WHERE \"CardId\" = @ci ";
+            text +=         "AND \"Username\" = @u ";
+            var command = new NpgsqlCommand(text);
+            command.Parameters.AddWithValue("ci", CardID);
+            command.Parameters.AddWithValue("u", Username);
+            var reader = DatabaseAccess.GetReader(command);
+
+            if (reader == null) return false;
+            return true;
         }
 
         public static bool DeleteFromStack(string Username, string cardId)
