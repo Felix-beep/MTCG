@@ -30,7 +30,10 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
-            if(!reader.HasRows) return null;
+            if(!reader.HasRows) { 
+                reader.Close(); 
+                return null; 
+            }
 
             string Name, Password, Bio, Picture;
             int Gold;
@@ -65,7 +68,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteAllUsers()
         {
-            string text = "DELETE FROM \"User\";";
+            string text = "DELETE FROM \"User\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

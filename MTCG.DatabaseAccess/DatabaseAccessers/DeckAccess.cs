@@ -34,7 +34,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
         {
             string text = "SELECT \"Deck\".\"Username\", ";
             text +=         "\"CardInstance\".\"Rating\", \"CardInstance\".\"CardID\", ";
-            text +=         "\"CardTemplate\".\"Cardname\", \"CardTemplate\".\"Power\", \"CardTemplate\".\"Type\",  \"CardTemplate\".\"Faction\"";
+            text +=         "\"CardTemplate\".\"Cardname\", \"CardTemplate\".\"Power\", \"CardTemplate\".\"Type\",  \"CardTemplate\".\"Faction\" ";
             text +=         "INNER JOIN \"CardInstance\" ON \"CardInstance\".\"CardID\" = \"Deck\".\"CardID\" ";
             text +=         "INNER JOIN \"CardTemplate\" ON \"CardTemplate\".\"Cardname\" = \"CardInstance\".\"Cardname\" ";
             text +=         "WHERE \"Deck\".\"Username\" = @u";
@@ -45,7 +45,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             Deck newDeck = new(Username);
 
             if (reader == null) return newDeck;
-            if (!reader.HasRows) return newDeck;
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return newDeck;
+            }
             while (reader.Read())
             {
                 int Rating, Power;
@@ -99,7 +103,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteAllStacks()
         {
-            string text = "DELETE FROM \"Deck\";";
+            string text = "DELETE FROM \"Deck\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

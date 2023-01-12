@@ -18,7 +18,7 @@ namespace MTCG.Test.UnitTests.Database
         public void Setup()
         {
             UserAccess.CreateUser(UserIn.Name, UserIn.Password);
-            UserAccess.EditUser(UserIn.Name, UserIn.Bio, UserIn.Picture);
+            UserAccess.EditUser(UserIn.Name, UserIn.Bio, UserIn.Image);
             UserOut = UserAccess.GetUser(UserIn.Name);
         }
 
@@ -43,7 +43,7 @@ namespace MTCG.Test.UnitTests.Database
         [Test]
         public void Picture()
         {
-            Assert.That(UserIn.Picture == UserOut.Picture);
+            Assert.That(UserIn.Image == UserOut.Image);
         }
 
         [Test]

@@ -28,7 +28,7 @@ namespace MTCG.BL
 
             Stack StackOut = StackAccess.GetStack(Username);
 
-            if (StackOut.CardList.Count == 0)
+            if (StackOut == null || StackOut.CardList.Count == 0)
             {
                 response.Status = 201;
                 response.Success = true;

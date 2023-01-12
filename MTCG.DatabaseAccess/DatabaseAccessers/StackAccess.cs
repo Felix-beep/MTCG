@@ -49,7 +49,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             Stack Stack = new(Username);
 
             if (reader == null) return null;
-            if (!reader.HasRows) return Stack;
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return Stack;
+            }
             while (reader.Read())
             {
                 int Rating, Power;
@@ -108,7 +112,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteAllStacks()
         {
-            string text = "DELETE FROM \"Stack\";";
+            string text = "DELETE FROM \"Stack\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

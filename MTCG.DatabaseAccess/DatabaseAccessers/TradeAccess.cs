@@ -61,8 +61,12 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             List<TradeOffer> Offers = new();
-            if (!reader.HasRows) return Offers;
-            while(reader.Read() )
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return Offers;
+            }
+            while (reader.Read() )
             {
                 string Name, CardId, Cardname, TradeId;
                 int Rating;
@@ -98,7 +102,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteAllTrades()
         {
-            string text = "DELETE FROM \"Tradeoffer\";";
+            string text = "DELETE FROM \"Tradeoffer\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

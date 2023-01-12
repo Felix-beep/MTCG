@@ -17,10 +17,10 @@ namespace MTCG.BL
         {
             CurlResponse response = new();
 
-            if(Username == null || Username.Length < 6 || Password == null || Password.Length < 6) {
+            if(Username == null || Username.Length < 5 || Password == null || Password.Length < 5) {
                 response.Status = 409;
                 response.Success = false;
-                response.Message = "Username and Password have to be at least 6 Characters long.";
+                response.Message = "Username and Password have to be at least 5 Characters long.";
                 return response;
             }
 

@@ -36,8 +36,8 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             string text = "SELECT ct.\"Cardname\", ct.\"Power\", ct.\"Type\", ct.\"Element\", ct.\"Faction\", p.\"PackID\" ";
             text +=         "FROM \"Pack\" p ";
             text +=         "INNER JOIN \"CardTemplate\" ct ";
-            text +=         "ON p.\"Cardname\" = ct.\"Cardname\"";
-            text +=         "ORDER BY p.\"PackID\" DESC";
+            text +=         "ON p.\"Cardname\" = ct.\"Cardname\" ";
+            text +=         "ORDER BY p.\"PackID\" DESC ";
             text +=         "LIMIT 4";
 
 
@@ -47,7 +47,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             string PackID = "";
 
             if (reader == null) return null;
-            if (!reader.HasRows) return Cards;
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return null;
+            }
             while (reader.Read())
             {
                 string Name, Type, Element, Faction;
@@ -98,7 +102,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteAllPacks()
         {
-            string text = "DELETE FROM \"Pack\";";
+            string text = "DELETE FROM \"Pack\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

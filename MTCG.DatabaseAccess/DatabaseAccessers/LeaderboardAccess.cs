@@ -28,7 +28,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             if (reader == null) return null;
 
             List<Tuple<int, string, int>> Ranking = new();
-
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return Ranking;
+            }
             int Placement = 0;
             while (reader.Read() != null)
             {
@@ -64,7 +68,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteLeaderboard()
         {
-            string text = "DELETE FROM \"Leaderboard\";";
+            string text = "DELETE FROM \"Leaderboard\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

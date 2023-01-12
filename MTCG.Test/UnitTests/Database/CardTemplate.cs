@@ -56,7 +56,7 @@ namespace MTCG.Test.UnitTests.Database
         [Test]
         public void Delete()
         {
-            CardTemplateAccess.DeleteAllCardTemplaes();
+            CardTemplateAccess.DeleteAllCardTemplates();
             Assert.That(CardTemplateAccess.GetCardTemplate(CardTemplateIn.Name) == null);
         }
     }

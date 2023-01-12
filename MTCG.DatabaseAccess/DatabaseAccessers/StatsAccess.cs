@@ -28,10 +28,26 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
-            string Name = reader.GetString(0);
-            int Elo = reader.GetInt32(1);
-            int Wins = reader.GetInt32(2);
-            int Losses = reader.GetInt32(3);
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return null;
+            }
+            string Name;
+            int Elo, Wins, Losses;
+            try
+            {
+                Name = reader.GetString(0);
+                Elo = reader.GetInt32(1);
+                Wins = reader.GetInt32(2);
+                Losses = reader.GetInt32(3);
+            } catch
+            {
+                Console.WriteLine("Error reading from Database.");
+                reader.Close();
+                return null;
+            }
+            reader.Close();
             return new Stats(Name, Elo, Wins, Losses);
         }
 
@@ -43,7 +59,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             List<Stats> list = new();
-            if (reader.HasRows) return list;
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return list;
+            }
 
             while (reader.Read())
             {
@@ -91,7 +111,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteAllStats()
         {
-            string text = "DELETE FROM \"Stats\";";
+            string text = "DELETE FROM \"Stats\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

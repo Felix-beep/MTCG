@@ -31,7 +31,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
-            if (!reader.HasRows) return null;
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return null;
+            }
 
             string Name, Type, Faction, Element;
             int Power;
@@ -53,9 +57,9 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return new CardTemplate(Name, Power, Type, Faction, Element);
         }
 
-        public static bool DeleteAllCardTemplaes()
+        public static bool DeleteAllCardTemplates()
         {
-            string text = "DELETE FROM \"CardTemplate\";";
+            string text = "DELETE FROM \"CardTemplate\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }

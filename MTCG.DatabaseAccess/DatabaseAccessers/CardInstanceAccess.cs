@@ -29,7 +29,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
-
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return null;
+            }
             int Rating;
             string CardName;
 
@@ -53,7 +57,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteAllCardInstances()
         {
-            string text = "DELETE FROM \"CardInstance\";";
+            string text = "DELETE FROM \"CardInstance\" CASCADE;";
             var command = new NpgsqlCommand(text);
             return DatabaseAccess.GetWriter(command);
         }
