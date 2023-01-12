@@ -30,6 +30,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
+            if(!reader.HasRows) return null;
             string Name = reader.GetString(0);
             string Password = reader.GetString(1);
             string Bio = reader?.GetString(2);

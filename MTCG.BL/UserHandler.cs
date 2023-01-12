@@ -28,7 +28,7 @@ namespace MTCG.BL
             {
                 response.Status = 409;
                 response.Success = false;
-                response.Message = "\t\r\nUser with same username already registered.";
+                response.Message = "User with same username already registered.";
                 return response;
             }
 
@@ -36,7 +36,7 @@ namespace MTCG.BL
             {
                 response.Status = 409;
                 response.Success = false;
-                response.Message = "Unknown Database Error.";
+                response.Message = "Unknown Database Error.";y
                 return response;
             }
 

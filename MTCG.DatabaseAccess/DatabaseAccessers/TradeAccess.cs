@@ -40,7 +40,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return new TradeOffer(Name, CardId, Cardname, TradeId, Rating);
         }
 
-        public static List<TradeOffer> GetAllTrades(string Username, string Bio, string Picture)
+        public static List<TradeOffer> GetAllTrades()
         {
             string text = "SELECT * FROM \"Tradeoffer\"";
             var command = new NpgsqlCommand(text);
@@ -64,7 +64,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return Offers;
         }
 
-        public static bool DeleteAllTrades(string TradeId)
+        public static bool DeleteAllTradesWithID(string TradeId)
         {
             string text = "DELETE FROM \"Tradeoffer\" where \"TradeId\" = @ti;";
             var command = new NpgsqlCommand(text);
