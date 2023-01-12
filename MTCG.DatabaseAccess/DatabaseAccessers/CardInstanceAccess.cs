@@ -29,11 +29,25 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
-            int Rating = reader.GetInt32(1);
-            string CardName = reader.GetString(2);
+
+            int Rating;
+            string CardName;
+
+            try
+            {
+                Rating = reader.GetInt32(1);
+                CardName = reader.GetString(2);
+            } catch
+            {
+                Console.WriteLine("Error reading from Database");
+                reader.Close();
+                return null;
+            }
+            reader.Close();
 
             CardTemplate BaseCard = CardTemplateAccess.GetCardTemplate(CardName);
             if (BaseCard == null) return null;
+
             return new CardInstance(Rating, CardName, CardID, BaseCard);
         }
 

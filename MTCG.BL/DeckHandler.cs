@@ -29,7 +29,7 @@ namespace MTCG.BL
 
             Deck DeckOut = DeckAccess.GetDeck(Username);
 
-            if (DeckOut.DeckList.Count != 0)
+            if (DeckOut.DeckList.Count != 0 && DeckOut != null)
             {
                 if (!DeckAccess.DeleteDeck(Username))
                 {
@@ -70,7 +70,7 @@ namespace MTCG.BL
 
             Deck DeckOut = DeckAccess.GetDeck(Username);
 
-            if (DeckOut.DeckList.Count == 0)
+            if (DeckOut.DeckList.Count == 0 || DeckOut == null)
             {
                 response.Status = 404;
                 response.Success = false;
@@ -120,7 +120,7 @@ namespace MTCG.BL
         public static bool ValidateDeck(string Username)
         {
             Deck myDeck = DeckAccess.GetDeck(Username);
-            if (myDeck == null)
+            if (myDeck == null || myDeck.DeckList.Count != 4)
             {
                 return false;
             }

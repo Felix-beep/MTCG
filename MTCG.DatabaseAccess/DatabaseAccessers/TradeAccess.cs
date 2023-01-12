@@ -32,10 +32,23 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
-            string Name = reader.GetString(0);
-            string CardId = reader.GetString(1);
-            string Cardname = reader.GetString(2);
-            int Rating = reader.GetInt16(4);
+            if (!reader.HasRows) return null;
+
+            string Name, CardId, Cardname;
+            int Rating;
+            try
+            {
+                Name = reader.GetString(0);
+                CardId = reader.GetString(1);
+                Cardname = reader.GetString(2);
+                Rating = reader.GetInt16(4);
+            } catch
+            {
+                Console.WriteLine("Error reading from Database.");
+                reader.Close();
+                return null;
+            }
+            reader.Close();
 
             return new TradeOffer(Name, CardId, Cardname, TradeId, Rating);
         }
@@ -47,19 +60,30 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             var reader = DatabaseAccess.GetReader(command);
 
             if (reader == null) return null;
-
             List<TradeOffer> Offers = new();
+            if (!reader.HasRows) return Offers;
             while(reader.Read() )
             {
-                string Name = reader.GetString(0);
-                string CardId = reader.GetString(1);
-                string Cardname = reader.GetString(2);
-                string TradeId = reader.GetString(3);
-                int Rating = reader.GetInt16(4);
+                string Name, CardId, Cardname, TradeId;
+                int Rating;
 
-                
+                try
+                {
+                    Name = reader.GetString(0);
+                    CardId = reader.GetString(1);
+                    Cardname = reader.GetString(2);
+                    TradeId = reader.GetString(3);
+                    Rating = reader.GetInt16(4);
+                } catch
+                {
+                    Console.WriteLine("Error when reading from Database.");
+                    reader.Close();
+                    return null;
+                }
+
                 Offers.Add(new TradeOffer(Name, CardId, Cardname, TradeId, Rating));
             }
+            reader.Close();
 
             return Offers;
         }

@@ -36,7 +36,7 @@ namespace MTCG.BL
             {
                 response.Status = 409;
                 response.Success = false;
-                response.Message = "Unknown Database Error.";y
+                response.Message = "Unknown Database Error.";
                 return response;
             }
 

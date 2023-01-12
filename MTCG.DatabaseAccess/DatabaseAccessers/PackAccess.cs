@@ -46,15 +46,25 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             List<CardInstance> Cards = new();
             string PackID = "";
 
-            if (reader == null) return Cards;
-
+            if (reader == null) return null;
+            if (!reader.HasRows) return Cards;
             while (reader.Read())
             {
-                string Name = reader.GetString(0);
-                int Power = reader.GetInt32(1);
-                string Type = reader.GetString(2);
-                string Element = reader.GetString(3);
-                string Faction = reader.GetString(4);
+                string Name, Type, Element, Faction;
+                int Power;
+                try
+                {
+                    Name = reader.GetString(0);
+                    Power = reader.GetInt32(1);
+                    Type = reader.GetString(2);
+                    Element = reader.GetString(3);
+                    Faction = reader.GetString(4);
+                } catch
+                {
+                    Console.WriteLine("Error reading from Database.");
+                    reader.Close();
+                    return null;
+                }
 
                 // get first PackID that was found
                 if(PackID == "") PackID = reader.GetString(5);
@@ -63,6 +73,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 CardInstance CardInstance = new(BaseCard);
                 Cards.Add(CardInstance);
             }
+            reader.Close();
 
             if(!DeleteAllPacksWithID(PackID))
             {

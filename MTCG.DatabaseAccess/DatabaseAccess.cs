@@ -15,6 +15,7 @@ namespace MTCG.DatabaseAccess
         private static Mutex LockAccess = new Mutex();
         public static NpgsqlDataReader? GetReader(NpgsqlCommand Command)
         {
+            Command.Prepare();
             NpgsqlDataReader? reader;
             LockAccess.WaitOne();
             try
@@ -36,6 +37,7 @@ namespace MTCG.DatabaseAccess
 
         public static bool GetWriter(NpgsqlCommand Command)
         {
+            Command.Prepare();
             bool success;
             LockAccess.WaitOne();
             try
@@ -51,6 +53,7 @@ namespace MTCG.DatabaseAccess
                 success = false;
             }
             LockAccess.ReleaseMutex();
+
             return success;
         }
     }

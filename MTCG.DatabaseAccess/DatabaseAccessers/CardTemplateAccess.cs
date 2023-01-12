@@ -31,11 +31,25 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             reader.Read();
-            string Name = reader.GetString(0);
-            int Power = reader.GetInt32(1);
-            string Type = reader.GetString(2);
-            string Faction = reader.GetString(3);
-            string Element = reader.GetString(4);
+            if (!reader.HasRows) return null;
+
+            string Name, Type, Faction, Element;
+            int Power;
+
+            try {
+                Name = reader.GetString(0);
+                Power = reader.GetInt32(1);
+                Type = reader.GetString(2);
+                Faction = reader.GetString(3);
+                Element = reader.GetString(4);
+            } catch
+            {
+                Console.WriteLine("Error reading from Database");
+                reader.Close();
+                return null;
+            }
+            reader.Close();
+
             return new CardTemplate(Name, Power, Type, Faction, Element);
         }
 

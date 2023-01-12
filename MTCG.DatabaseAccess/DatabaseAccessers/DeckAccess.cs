@@ -45,21 +45,32 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             Deck newDeck = new(Username);
 
             if (reader == null) return newDeck;
-
+            if (!reader.HasRows) return newDeck;
             while (reader.Read())
             {
-                int Rating = reader.GetInt32(1);
-                string CardID = reader.GetString(2);
-                string Name = reader.GetString(3);
-                int Power = reader.GetInt32(4);
-                string Type = reader.GetString(5);
-                string Element = reader.GetString(6);
-                string Faction = reader.GetString(7);
+                int Rating, Power;
+                string CardID, Name, Type, Element, Faction;
+                try
+                {
+                    Rating = reader.GetInt32(1);
+                    CardID = reader.GetString(2);
+                    Name = reader.GetString(3);
+                    Power = reader.GetInt32(4);
+                    Type = reader.GetString(5);
+                    Element = reader.GetString(6);
+                    Faction = reader.GetString(7);
+                } catch
+                {
+                    Console.WriteLine("Error reading from Database");
+                    reader.Close();
+                    return null;
+                }
 
                 CardTemplate BaseCard = new(Name, Power, Element, Type, Faction);
                 CardInstance CardInstance = new(Rating, Name, CardID, BaseCard);
                 newDeck.DeckList.Add(CardInstance);
             }
+            reader.Close();
 
             return newDeck;
         }

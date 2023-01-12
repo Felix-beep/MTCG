@@ -31,11 +31,24 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             if (reader == null) return null;
             reader.Read();
             if(!reader.HasRows) return null;
-            string Name = reader.GetString(0);
-            string Password = reader.GetString(1);
-            string Bio = reader?.GetString(2);
-            string Picture = reader?.GetString(3);
-            int Gold = reader.GetInt16(4);
+
+            string Name, Password, Bio, Picture;
+            int Gold;
+
+            try
+            {
+                Name = reader.GetString(0);
+                Password = reader.GetString(1);
+                Bio = reader?.GetString(2);
+                Picture = reader?.GetString(3);
+                Gold = reader.GetInt16(4);
+            } catch
+            {
+                Console.WriteLine("Error reading from Database.");
+                reader.Close();
+                return null;
+            }
+            reader.Close();
 
             return new User(Username, Password, Bio, Picture, Gold); 
         }

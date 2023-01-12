@@ -43,15 +43,30 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
             if (reader == null) return null;
             List<Stats> list = new();
-            while(reader.Read())
+            if (reader.HasRows) return list;
+
+            while (reader.Read())
             {
-                string Name = reader.GetString(0);
-                int Elo = reader.GetInt32(1);
-                int Wins = reader.GetInt32(2);
-                int Losses = reader.GetInt32(3);
+                string Name;
+                int Elo, Wins, Losses;
+
+                try
+                {
+                    Name = reader.GetString(0);
+                    Elo = reader.GetInt32(1);
+                    Wins = reader.GetInt32(2);
+                    Losses = reader.GetInt32(3);
+                } catch
+                {
+                    Console.WriteLine("Error when reading from Database.");
+                    reader.Close();
+                    return null;
+                }
 
                 list.Add(new Stats(Name, Elo, Wins, Losses));
             }
+
+            reader.Close();
             return list;
         }
 

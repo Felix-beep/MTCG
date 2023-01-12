@@ -34,12 +34,22 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             {
                 Placement++;
                 int Place = Placement;
-                string Name = reader.GetString(0);
-                int Elo = reader.GetInt32(1);
-
+                int Elo;
+                string Name;
+                try
+                {
+                    Name = reader.GetString(0);
+                    Elo = reader.GetInt32(1);
+                } catch
+                {
+                    reader.Close();
+                    Console.WriteLine("Error reading from Database.");
+                    return null;
+                }
+                
                 Ranking.Add(new(Place, Name, Elo));
             }
-
+            reader.Close();
             return Ranking;
         }
 

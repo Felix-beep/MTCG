@@ -48,23 +48,33 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             var reader = DatabaseAccess.GetReader(command);
             Stack Stack = new(Username);
 
-            if (reader == null) return Stack;
-
+            if (reader == null) return null;
+            if (!reader.HasRows) return Stack;
             while (reader.Read())
             {
-                int Rating = reader.GetInt32(1);
-                string CardID = reader.GetString(2);
-                string Name = reader.GetString(3);
-                int Power = reader.GetInt32(4);
-                string Type = reader.GetString(5);
-                string Element = reader.GetString(6);
-                string Faction = reader.GetString(7);
+                int Rating, Power;
+                string CardID, Name, Type, Element, Faction;
+                try
+                {
+                    Rating = reader.GetInt32(1);
+                    CardID = reader.GetString(2);
+                    Name = reader.GetString(3);
+                    Power = reader.GetInt32(4);
+                    Type = reader.GetString(5);
+                    Element = reader.GetString(6);
+                    Faction = reader.GetString(7);
+                } catch
+                {
+                    Console.WriteLine("Error reading from Database.");
+                    reader.Close();
+                    return null;
+                }
 
                 CardTemplate BaseCard = new(Name, Power, Element, Type, Faction);
                 CardInstance CardInstance = new(Rating, Name, CardID, BaseCard);
                 Stack.CardList.Add(CardInstance);
             }
-
+            reader.Close();
             return Stack;
         }
         public static bool FindCardInStack(string Username, string CardID)
