@@ -9,30 +9,24 @@ namespace MTCG.BL
     public class CombatHandler
     {
         private Deck Deck1 { get; set; }
+
+        private User User1 { get; set; }
         private Deck Deck2 { get; set; }
+
+        private User User2 { get; set; }
 
         private List<CardInstance> CardsSaved = new List<CardInstance>();
 
-        public CombatHandler()
+        public CombatHandler(QueueEntry QueueSpot)
         {
-            Deck1 = null;
-            Deck2 = null;
+            Deck1 = QueueSpot.Deck1;
+            Deck2 = QueueSpot.Deck2;
+            User1 = QueueSpot.User1;
+            User2 = QueueSpot.User2;
         }
 
-        public void AddPlayer(Deck deck)
+        public int StartCombat() // 1 = player1 won, 0 = draw, 2 = player2 won, 2 = error
         {
-            if(Deck1 == null)
-            {
-                Deck1 = new Deck(deck);
-                return;
-            }
-            Deck2 = new Deck(deck);
-            return;
-        }
-
-        public int StartCombat() // -1 = player1 won, 0 = draw, 1 = player2 won, 2 = error
-        {
-            if (Deck1 == null || Deck2 == null) return 2;
             int Counter = 100;
 
             while(Deck1.DeckList.Count > 0 && Deck2.DeckList.Count > 0 && Counter > 0)
@@ -41,7 +35,7 @@ namespace MTCG.BL
                 CardInstance Card1 = Deck1.PopRandomCard();
                 CardInstance Card2 = Deck2.PopRandomCard();
                 if (Card1 == null || Card2 == null) return 2; 
-                switch(FightControler.Compare(Card1, Card2))
+                switch(FightCalculations.Compare(Card1, Card2))
                 {
                     case -1:
                         Deck1.AddCard(Card1);
@@ -69,12 +63,12 @@ namespace MTCG.BL
             if(Deck1.DeckList.Count == 0)
             {
                 Console.WriteLine("Player 1 has won");
-                return -1;
+                return 1;
             }
             if(Deck2.DeckList.Count == 0)
             {
                 Console.WriteLine("Player 2 has won");
-                return 1;
+                return 2;
             }
             if(Counter == 0)
             {

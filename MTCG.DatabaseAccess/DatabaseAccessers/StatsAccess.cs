@@ -90,14 +90,14 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return list;
         }
 
-        public static bool UpdateStats(string Username, int Elo, int Wins, int Losses)
+        public static bool UpdateStats(Stats newStats)
         {
             string text = "UPDATE \"Stats\" SET \"Elo\" = @e, \"Wins\" = @w, \"Losses\" = @l WHERE \"Username\" = @u ;";
             var command = new NpgsqlCommand(text);
-            command.Parameters.AddWithValue("e", Elo);
-            command.Parameters.AddWithValue("w", Wins);
-            command.Parameters.AddWithValue("l", Losses);
-            command.Parameters.AddWithValue("u", Username);
+            command.Parameters.AddWithValue("e", newStats.Elo);
+            command.Parameters.AddWithValue("w", newStats.Wins);
+            command.Parameters.AddWithValue("l", newStats.Losses);
+            command.Parameters.AddWithValue("u", newStats.Username);
             return DatabaseAccess.GetWriter(command);
         }
 

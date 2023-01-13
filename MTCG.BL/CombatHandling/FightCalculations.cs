@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.BL
 {
-    public static class FightControler
+    public static class FightCalculations
     {
         public static int Compare(CardInstance Card1, CardInstance Card2)
         {

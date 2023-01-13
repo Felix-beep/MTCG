@@ -1,16 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using MTCG.MODELS;
 
 namespace MTCG.DatabaseAccess
 {
-    public class QueueAccess
+    public static class QueueAccess
     {
-        public static List<QueueEntries> Queue = new();
+        public static List<QueueEntry> Queue = new();
         
-        public QueueAccess() { }
+        public static QueueEntry EnterQueue(User UserToEnter, Deck DeckToEnter)
+        {
+            lock(Queue)
+            {
+                QueueEntry openQueue = Queue.First(x => x.Open == true);
+                if(openQueue == null)
+                {
+                    QueueEntry newEntry = new QueueEntry(UserToEnter, DeckToEnter);
+                    Queue.Add(newEntry);
+                    return newEntry;
+                }
+                else 
+                {
+                    openQueue.Join(UserToEnter, DeckToEnter);
+                }
+                return openQueue;
+            }
+        }
     }
 }
