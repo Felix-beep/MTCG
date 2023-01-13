@@ -142,18 +142,22 @@ namespace MTCG.BL
             return response;
         }
 
-        public static CurlResponse AuthenticateUser(string Username)
+        private static Dictionary<string, string> Tokens;
+
+        private static bool CreateToken(string Username)
         {
-            CurlResponse response = new();
+            bool response = true;
 
             return response;
         }
 
-        public static CurlResponse ValidateUser(string Username)
+        public static bool AuthenticateUser(string Username)
         {
-            CurlResponse response = new();
+            bool response = true;
 
             return response;
         }
+
+       
     }
 }

@@ -55,6 +55,16 @@ namespace MTCG.BL
         {
             CurlResponse response = new();
 
+            User UserOut = UserAccess.GetUser(Username);
+
+            if (UserOut == null)
+            {
+                response.Status = 404;
+                response.Success = false;
+                response.Message = "User not found.";
+                return response;
+            }
+
             TradeOffer Trade = TradeAccess.GetTrade(TradeId);
             if(Trade == null)
             {
@@ -98,11 +108,20 @@ namespace MTCG.BL
             return response;
         }
 
-        public static CurlResponse DeleteTrade(string TradeId)
+        public static CurlResponse DeleteTrade(string Username, string TradeId)
         {
             CurlResponse response = new();
 
-            
+            User UserOut = UserAccess.GetUser(Username);
+
+            if (UserOut == null)
+            {
+                response.Status = 404;
+                response.Success = false;
+                response.Message = "User not found.";
+                return response;
+            }
+
             if (!TradeAccess.DeleteAllTradesWithID(TradeId))
             {
                 response.Status = 404;

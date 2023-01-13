@@ -92,11 +92,12 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return Offers;
         }
 
-        public static bool DeleteAllTradesWithID(string TradeId)
+        public static bool DeleteAllTradesWithID(string Username, string TradeId)
         {
-            string text = "DELETE FROM \"Tradeoffer\" where \"TradeId\" = @ti;";
+            string text = "DELETE FROM \"Tradeoffer\" where \"TradeId\" = @ti AND \"Username\" = @u;";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("ti", TradeId);
+            command.Parameters.AddWithValue("u", TradeId);
             return DatabaseAccess.GetWriter(command);
         }
 
