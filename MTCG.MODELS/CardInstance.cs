@@ -8,41 +8,43 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace MTCG.MODELS
 {
-    public class CardInstance : IPrintable
+    public class CardInstance
     {
-        public CardTemplate BaseCard { get; }
+        public string CardName { get; }
         public int Rating { get; }
+        public string ID { get; }
 
-        public int ID { get; }
+        public CardTemplate BaseCard { get; }
+        public int EffectivePower { get; }
 
-        public int EffectivePower
+        public CardInstance(int Rating, string Cardname, string CardID, CardTemplate BaseCard)
         {
-            get
-            {
-                double calc = BaseCard.Power * (1 + (double)Rating / 100);
-                return (int)Math.Ceiling(calc);
-            }
+            this.CardName = Cardname;
+            this.Rating = Rating;
+            this.ID = CardID;
+            this.BaseCard = BaseCard;
+            this.EffectivePower = CalculateEffectivePower();
         }
 
-        public CardInstance(CardTemplate thisCard)
+        public CardInstance(CardTemplate BaseCard) 
         {
-            BaseCard = thisCard;
+            this.CardName = BaseCard.Name;
+            this.Rating = GetRandomRating();
+            Guid myuuid = Guid.NewGuid();
+            this.ID = myuuid.ToString();
+            this.BaseCard = BaseCard;
+            this.EffectivePower = CalculateEffectivePower();
+        }
+
+        private int CalculateEffectivePower()
+        {
+            return BaseCard.Power * (1 + this.Rating / 100);
+        }
+
+        public static int GetRandomRating()
+        {
             Random r = new Random();
-            Rating = r.Next(0, 100);
-            ID = r.Next(0, 1000000);
-        }
-
-        public CardInstance(CardTemplate thisCard, int rating)
-        {
-            BaseCard = thisCard;
-            Rating = rating;
-        }
-
-        public override void Print()
-        {
-            Console.WriteLine($"[{BaseCard.Name}]");
-            Console.WriteLine($"[Power: {BaseCard.Power} with a Rating of {Rating}% and Effective Power of {EffectivePower}]");
-            Console.WriteLine($"[Type: {BaseCard.Type}] [Faction: {BaseCard.Faction}] [Element: {BaseCard.Element}]\n");
+            return r.Next(0, 101);
         }
     }
 }

@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MTCG.MODELS
 {
-    public class CardTemplate : IPrintable
+    public class CardTemplate
     {
         public string Name { get; }
         public int Power { get; }
@@ -16,28 +17,33 @@ namespace MTCG.MODELS
         public Types Type { get; }
         public Factions Faction { get; }
 
-        public CardTemplate(string name, int power, Elements element, Types type, Factions faction)
+        public CardTemplate(string name, int power, string element, string type, string faction)
         {
             Name = name;
-            Element = element;
+            switch (element)
+            {
+                case "Water": Element = Elements.Water; break;
+                case "Fire": Element = Elements.Water; break;
+                case "Nature": Element = Elements.Water; break;
+                default: Element = Elements.NoElement; break;
+            }
+            switch (type)
+            {   
+                case "Spell": Type = Types.Spell; break;
+                case "Monster": Type = Types.Monster; break;
+                default: Type = Types.NoType; break;
+            }
+            switch (faction)
+            {
+                case "Goblin": Faction = Factions.Goblin; break;
+                case "Elf": Faction = Factions.Elf; break;
+                case "Mermaid": Faction = Factions.Mermaid; break;
+                case "Dragon": Faction = Factions.Dragon; break;
+                case "Kraken": Faction = Factions.Kraken; break;
+                case "Hydra": Faction = Factions.Hydra; break;
+                default: Faction = Factions.NoFaction; break;
+            }
             Power = power;
-            Type = type;
-            Faction = faction;
-        }
-
-        public CardTemplate()
-        {
-            Name = "EmptyCardtemplate";
-            Power = 0;
-            Element = Elements.NoElement;
-            Type = Types.NoType;
-            Faction = Factions.NoFaction;
-        }
-
-        public override void Print()
-        {
-            Console.WriteLine($"[{Name}]");
-            Console.WriteLine($"[Type: {Type}] [Faction: {Faction}] [Element: {Element}]\n");
         }
     }
 }

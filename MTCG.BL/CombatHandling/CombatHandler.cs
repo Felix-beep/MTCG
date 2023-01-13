@@ -2,7 +2,6 @@
 using System.Diagnostics.Metrics;
 using System.Reflection;
 using System.Reflection.Metadata;
-
 using MTCG.Models;
 using MTCG.MODELS;
 
@@ -21,12 +20,6 @@ namespace MTCG.BL
             Deck2 = null;
         }
 
-        public void AddPlayer(User user)
-        {
-            AddPlayer(user.DeckList);
-            return;
-        }
-
         public void AddPlayer(Deck deck)
         {
             if(Deck1 == null)
@@ -43,7 +36,7 @@ namespace MTCG.BL
             if (Deck1 == null || Deck2 == null) return 2;
             int Counter = 100;
 
-            while(Deck1.Size > 0 && Deck2.Size > 0 && Counter > 0)
+            while(Deck1.DeckList.Count > 0 && Deck2.DeckList.Count > 0 && Counter > 0)
             {
                 Counter--;
                 CardInstance Card1 = Deck1.PopRandomCard();
@@ -72,14 +65,14 @@ namespace MTCG.BL
                         CardsSaved.Add(Card2); break;
                     default:  break;
                 }
-                Console.WriteLine($"PlayerA Deck: {Deck1.Size} Stack: {CardsSaved.Count} PlayerB Deck: {Deck2.Size}");
+                Console.WriteLine($"PlayerA Deck: {Deck1.DeckList.Count} Stack: {CardsSaved.Count} PlayerB Deck: {Deck2.DeckList.Count}");
             }
-            if(Deck1.Size == 0)
+            if(Deck1.DeckList.Count == 0)
             {
                 Console.WriteLine("Player 1 has won");
                 return -1;
             }
-            if(Deck2.Size == 0)
+            if(Deck2.DeckList.Count == 0)
             {
                 Console.WriteLine("Player 2 has won");
                 return 1;
