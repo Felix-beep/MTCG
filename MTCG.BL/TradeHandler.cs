@@ -1,5 +1,4 @@
 ﻿using MTCG.DatabaseAccess.DatabaseAccessers;
-using MTCG.Models;
 using MTCG.MODELS;
 using System;
 using System.Collections.Generic;
@@ -122,7 +121,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            if (!TradeAccess.DeleteAllTradesWithID(TradeId))
+            if (!TradeAccess.DeleteAllTradesWithID(Username, TradeId))
             {
                 response.Status = 404;
                 response.Success = false;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MTCG.Models;
+using MTCG.MODELS;
 using System.Data;
 
 namespace MTCG.DatabaseAccess.DatabaseAccessers
@@ -20,7 +20,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             command.Parameters.AddWithValue("p", Password);
             return DatabaseAccess.GetWriter(command);
         }
-
+        
         public static User GetUser(string Username)
         {
             string text = "SELECT * FROM \"User\" WHERE \"Username\" = @u ";
@@ -34,7 +34,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 reader.Close(); 
                 return null; 
             }
-
+            
             string Name, Password, Bio, Picture;
             int Gold;
 

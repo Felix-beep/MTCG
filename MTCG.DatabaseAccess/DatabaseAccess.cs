@@ -1,5 +1,4 @@
 ﻿using MTCG.Database;
-using MTCG.Models;
 using Npgsql;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,4 @@
 ﻿using MTCG.DatabaseAccess.DatabaseAccessers;
-using MTCG.Models;
 using MTCG.MODELS;
 using System;
 using System.Collections.Generic;

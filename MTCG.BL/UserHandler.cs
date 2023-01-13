@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MTCG.DatabaseAccess.DatabaseAccessers;
-using MTCG.Models;
 using System.Text.Json.Nodes;
 using Newtonsoft.Json;
 

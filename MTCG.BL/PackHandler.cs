@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
-using MTCG.Models;
 using System.Text.Json.Nodes;
 
 namespace MTCG.BL
