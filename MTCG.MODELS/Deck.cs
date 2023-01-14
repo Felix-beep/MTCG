@@ -11,7 +11,7 @@ namespace MTCG.MODELS
     {
         public string Username { get; }
 
-        public List<CardInstance> DeckList { get; }
+        public List<CardInstance> DeckList { get; } = new();
         public Deck(Deck toCopy)
         {
             DeckList = toCopy.DeckList;

@@ -113,7 +113,7 @@ namespace MTCG.BL.CombatHandling
             return response;
         }
 
-        private static bool MoveElo(User Winner, User Loser)
+        public static bool MoveElo(User Winner, User Loser)
         {
             Stats StatsWinner = StatsAccess.GetStats(Winner.Name);
             Stats StatsLoser = StatsAccess.GetStats(Loser.Name);

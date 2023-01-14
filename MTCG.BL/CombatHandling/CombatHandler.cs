@@ -27,6 +27,7 @@ namespace MTCG.BL
 
         public int StartCombat() // 1 = player1 won, 0 = draw, 2 = player2 won, 2 = error
         {
+            if (Deck1.DeckList.Count != 4 || Deck2.DeckList.Count != 4) return 2;
             int Counter = 100;
 
             while(Deck1.DeckList.Count > 0 && Deck2.DeckList.Count > 0 && Counter > 0)

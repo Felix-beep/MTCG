@@ -19,7 +19,7 @@ namespace MTCG.MODELS
         public bool Finished { get; set; }
         public int Winner { get; set; }
 
-        public Mutex MutexFinished { get; set; }
+        public Mutex MutexFinished { get; set; } = new Mutex();
 
         public QueueEntry(User user1, Deck deck1)
         {
