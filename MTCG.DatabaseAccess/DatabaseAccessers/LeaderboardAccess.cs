@@ -10,18 +10,20 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class LeaderboardAccess
     {
-        public static bool AddUserToLeaderboard(string Username, int Elo)
+        public static bool AddUserToLeaderboard(string Username)
         {
-            string text = "INSERT INTO \"Leaderboard\" VALUES ( @u, @e )";
+            string text = "INSERT INTO \"Leaderboard\" VALUES ( @u )";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
-            command.Parameters.AddWithValue("e", Elo);
             return DatabaseAccess.GetWriter(command);
         }
 
         public static List<Tuple<int, string, int>> GetLeaderboard()
         {
-            string text = "SELECT * FROM \"Leaderboard\" ORDER BY \"Elo\" DESC";
+            string text =   "SELECT \"Leaderboard\".\"Username\", \"Stats\".\"Elo\" ";
+            text +=         "FROM \"Leaderboard\" ";
+            text +=         "INNER JOIN \"Stats\" ON \"Leaderboard\".\"Username\" = \"Stats\".\"Username\"";
+            text +=         "ORDER BY 2 DESC;";
             var command = new NpgsqlCommand(text);
             var reader = DatabaseAccess.GetReader(command);
 
@@ -34,7 +36,8 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 return Ranking;
             }
             int Placement = 0;
-            while (reader.Read() != null)
+
+            while (reader.Read())
             {
                 Placement++;
                 int Place = Placement;
@@ -44,10 +47,10 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 {
                     Name = reader.GetString(0);
                     Elo = reader.GetInt32(1);
-                } catch
+                } catch (Exception ex)
                 {
                     reader.Close();
-                    Console.WriteLine("Error reading from Database.");
+                    Console.WriteLine("Error reading from Database: " + ex.Message);
                     return null;
                 }
                 

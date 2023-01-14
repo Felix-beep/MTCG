@@ -17,7 +17,15 @@ namespace MTCG.DatabaseAccess
         {
             lock(Queue)
             {
-                QueueEntry openQueue = Queue.First(x => x.Open == true);
+                QueueEntry openQueue = null;
+                try
+                {
+                    openQueue = Queue.First(x => x.Open == true);
+                }   catch(InvalidOperationException ex)
+                {
+                    Console.WriteLine("- No open Queue found");
+                }
+
                 if(openQueue == null)
                 {
                     QueueEntry newEntry = new QueueEntry(UserToEnter, DeckToEnter);

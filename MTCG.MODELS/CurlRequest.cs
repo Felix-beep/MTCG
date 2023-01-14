@@ -75,11 +75,15 @@ namespace MTCG.MODELS
         }
         private void CheckForMethodInfo()
         {
+            Console.WriteLine("+ Method to split: " + Method);
             string[] parts = Method.Split("/");
             Method = parts[1];
             if (parts.Length > 2)
             {
-                MethodInfo = parts[2];
+                 MethodInfo = parts[2];
+            } else
+            {
+                MethodInfo = null;
             }
         }
 
@@ -95,7 +99,7 @@ namespace MTCG.MODELS
             Console.WriteLine("Payload: " + Payload);
             if (DynamicJsonObject != null)
             {
-                foreach (var obj in DynamicJsonObject)
+                foreach ( var obj in DynamicJsonObject)
                 {
                     Console.WriteLine(obj);
                 }

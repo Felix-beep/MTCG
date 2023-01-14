@@ -287,7 +287,6 @@ namespace MTCG.Database
                 + @"CREATE TABLE IF NOT EXISTS public.""Leaderboard""
                     (
                         ""Username"" text COLLATE pg_catalog.""default"",
-                        ""Elo"" integer DEFAULT 1000,
                         ""RandomId"" integer NOT NULL DEFAULT nextval('""Leaderboard_ID_seq""'::regclass),
                         CONSTRAINT ""Leaderboard_pkey"" PRIMARY KEY (""RandomId""),
                         CONSTRAINT ""Username"" FOREIGN KEY (""Username"")
@@ -298,7 +297,7 @@ namespace MTCG.Database
                 + @"CREATE TABLE IF NOT EXISTS public.""Stats""
                     (
                         ""Username"" text COLLATE pg_catalog.""default"",
-                        ""Elo"" integer NOT NULL DEFAULT 1000,
+                        ""Elo"" integer NOT NULL DEFAULT 500,
                         ""Wins"" integer NOT NULL DEFAULT 0,
                         ""Losses"" integer NOT NULL DEFAULT 0,
                         ""ID"" integer NOT NULL DEFAULT nextval('""Stats_ID_seq""'::regclass),

@@ -28,7 +28,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            if(StackAccess.FindCardInStack(Username, CardId))
+            if(!StackAccess.FindCardInStack(Username, CardId))
             {
                 response.Status = 409;
                 response.Success = false;
@@ -36,9 +36,9 @@ namespace MTCG.BL
                 return response;
             }
 
-            if(TradeAccess.CreateTrade(Username, CardId, Id, Rating))
+            if(!TradeAccess.CreateTrade(Username, Id, CardId, Rating))
             {
-                response.Status = 409;
+                response.Status = 415;
                 response.Success = false;
                 response.Message = "Unknown Database Error.";
                 return response;

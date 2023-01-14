@@ -56,7 +56,7 @@ namespace MTCG.BL
 
             List<Tuple<int, string, int>> Leaderboard = LeaderboardAccess.GetLeaderboard();
 
-            if (Leaderboard == null)
+            if(Leaderboard == null)
             {
                 response.Status = 409;
                 response.Success = false;

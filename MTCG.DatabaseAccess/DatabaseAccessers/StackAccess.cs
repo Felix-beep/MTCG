@@ -94,12 +94,13 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             string text =   "SELECT \"Username\", \"CardId\" ";
             text +=         "FROM \"Stack\" ";
             text +=         "WHERE \"CardId\" = @ci ";
-            text +=         "AND \"Username\" = @u ";
+            text +=         "AND \"Username\" = @u;";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("ci", CardID);
             command.Parameters.AddWithValue("u", Username);
             var reader = DatabaseAccess.GetReader(command);
-            if (reader == null || !reader.HasRows) 
+            if(reader == null) return false;
+            if (!reader.HasRows) 
             {
                 reader.Close();
                 Console.WriteLine("-- Card not found.");

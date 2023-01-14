@@ -10,9 +10,9 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class TradeAccess
     {
-        public static bool CreateTrade(string Username, string CardID, string TradeID, int Rating)
+        public static bool CreateTrade(string Username, string TradeID, string CardID, int Rating)
         {
-            string text = "INSERT INTO \"CreateTrade\" VALUES ( @u, @ci, @ti, @r)";
+            string text = "INSERT INTO \"Tradeoffer\" VALUES ( @u, @ci, @ti, @r)";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
             command.Parameters.AddWithValue("ci", CardID);
@@ -38,8 +38,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             {
                 Name = reader.GetString(0);
                 CardId = reader.GetString(1);
-                Cardname = reader.GetString(2);
-                Rating = reader.GetInt16(4);
+                Rating = reader.GetInt16(3);
             } catch
             {
                 Console.WriteLine("Error reading from Database.");
@@ -48,7 +47,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             }
             reader.Close();
 
-            return new TradeOffer(Name, CardId, Cardname, TradeId, Rating);
+            return new TradeOffer(Name, CardId, TradeId, Rating);
         }
 
         public static List<TradeOffer> GetAllTrades()
@@ -73,9 +72,8 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 {
                     Name = reader.GetString(0);
                     CardId = reader.GetString(1);
-                    Cardname = reader.GetString(2);
-                    TradeId = reader.GetString(3);
-                    Rating = reader.GetInt16(4);
+                    TradeId = reader.GetString(2);
+                    Rating = reader.GetInt16(3);
                 } catch
                 {
                     Console.WriteLine("Error when reading from Database.");
@@ -83,7 +81,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                     return null;
                 }
 
-                Offers.Add(new TradeOffer(Name, CardId, Cardname, TradeId, Rating));
+                Offers.Add(new TradeOffer(Name, CardId, TradeId, Rating));
             }
             reader.Close();
 
@@ -95,7 +93,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             string text = "DELETE FROM \"Tradeoffer\" where \"TradeId\" = @ti AND \"Username\" = @u;";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("ti", TradeId);
-            command.Parameters.AddWithValue("u", TradeId);
+            command.Parameters.AddWithValue("u", Username);
             return DatabaseAccess.GetWriter(command);
         }
 

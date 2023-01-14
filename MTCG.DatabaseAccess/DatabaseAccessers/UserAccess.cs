@@ -14,6 +14,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
     {
         public static bool CreateUser(string Username, string Password)
         {
+            Console.WriteLine($"-- Creating User [{Username}] Password [{Password}]");
             string text = "INSERT INTO \"User\" VALUES ( @u, @p )";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
@@ -23,6 +24,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
         
         public static User GetUser(string Username)
         {
+            Console.WriteLine($"-- Getting User [{Username}]");
             string text = "SELECT * FROM \"User\" WHERE \"Username\" = @u ";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
@@ -58,18 +60,21 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             return new User(Username, Password, Bio, Picture, Gold); 
         }
 
-        public static bool EditUser(string Username, string Bio, string Picture)
+        public static bool EditUser(string User, string Username, string Bio, string Picture)
         {
-            string text = "UPDATE \"User\" SET \"Bio\" = @b, \"Picture\" = @p WHERE \"Username\" = @u ;";
+            Console.WriteLine($"-- Setting User [{User}] Username = [{Username}] to Bio = [{Bio}] and Picture = [{Picture}]");
+            string text = "UPDATE \"User\" SET \"Username\" = @un, \"Bio\" = @b, \"Picture\" = @p WHERE \"Username\" = @u ;";
             var command = new NpgsqlCommand(text);
+            command.Parameters.AddWithValue("u", User);
             command.Parameters.AddWithValue("b", Bio);
             command.Parameters.AddWithValue("p", Picture);
-            command.Parameters.AddWithValue("u", Username);
+            command.Parameters.AddWithValue("un", Username);
             return DatabaseAccess.GetWriter(command);
         }
 
         public static bool ChangeUserGold(string Username, int Gold)
         {
+            Console.WriteLine($"-- Setting User [{Username}] to Gold = [{Gold}]");
             string text = "UPDATE \"User\" SET \"Gold\" = @g WHERE \"Username\" = @u ;";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("g", Gold);

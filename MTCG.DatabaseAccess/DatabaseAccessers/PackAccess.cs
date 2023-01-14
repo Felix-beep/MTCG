@@ -40,8 +40,8 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             text +=         "FROM \"Pack\" p ";
             text +=         "INNER JOIN \"CardTemplate\" ct ";
             text +=         "ON p.\"Cardname\" = ct.\"Cardname\" ";
-            text +=         "ORDER BY p.\"PackID\" DESC ";
-            text +=         "LIMIT 4";
+            text +=         "ORDER BY p.\"ID\" ASC ";
+            text +=         "LIMIT 5";
 
 
             var command = new NpgsqlCommand(text);
@@ -83,7 +83,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             }
             reader.Close();
 
-            if(Cards.Count != 4)
+            if(Cards.Count != 5)
             {
                 if (!DeleteAllPacksWithID(PackID))
                 {

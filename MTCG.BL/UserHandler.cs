@@ -31,7 +31,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            if (!UserAccess.CreateUser(Username, Password) || !StatsAccess.CreateStats(Username))
+            if (!UserAccess.CreateUser(Username, Password) || !StatsAccess.CreateStats(Username) || !LeaderboardAccess.AddUserToLeaderboard(Username))
             {
                 response.Status = 409;
                 response.Success = false;
@@ -111,11 +111,11 @@ namespace MTCG.BL
             return response;
         }
 
-        public static CurlResponse UpdateUser(string Username, string Name, string Bio, string Image)
+        public static CurlResponse UpdateUser(string User, string Useranme, string Bio, string Image)
         {
             CurlResponse response = new();
 
-            User UserOut = UserAccess.GetUser(Username);
+            User UserOut = UserAccess.GetUser(User);
 
             if(UserOut == null)
             {
@@ -125,7 +125,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            if(UserAccess.EditUser(Name, Bio, Image))
+            if(!UserAccess.EditUser(User, Useranme, Bio, Image))
             {
                 response.Status = 409;
                 response.Success = false;
