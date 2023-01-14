@@ -30,7 +30,7 @@ namespace MTCG.MODELS
 
         public CurlRequest(string data)
         {
-            data = data.Replace("\r\n", "\n").Replace("\r", "\n");
+            data = data.Replace("\r\n", "\n");
             UnparsedMessage = data;
             
             List<string> lines = UnparsedMessage.Split("\n").ToList();
@@ -73,7 +73,6 @@ namespace MTCG.MODELS
                 DynamicJsonObject = JsonConvert.DeserializeObject<dynamic>(Payload);
             }
         }
-
         private void CheckForMethodInfo()
         {
             string[] parts = Method.Split("/");

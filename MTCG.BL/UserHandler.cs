@@ -31,7 +31,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            if (!UserAccess.CreateUser(Username, Password))
+            if (!UserAccess.CreateUser(Username, Password) || !StatsAccess.CreateStats(Username))
             {
                 response.Status = 409;
                 response.Success = false;
@@ -96,9 +96,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            // create Token
-
-            string Token = $"{Username}-mtcgToken";
+            string Token = TokenHandler.CreateToken(Username);
 
             JsonObject Json = new()
             {
@@ -140,23 +138,5 @@ namespace MTCG.BL
             response.Message = "user sucessfully updated.";
             return response;
         }
-
-        private static Dictionary<string, string> Tokens;
-
-        private static bool CreateToken(string Username)
-        {
-            bool response = true;
-
-            return response;
-        }
-
-        public static bool AuthenticateUser(string Username)
-        {
-            bool response = true;
-
-            return response;
-        }
-
-       
     }
 }

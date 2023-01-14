@@ -28,7 +28,7 @@ namespace MTCG.BL
 
             Deck DeckOut = DeckAccess.GetDeck(Username);
 
-            if (DeckOut.DeckList.Count != 0 && DeckOut != null)
+            if (DeckOut != null || DeckOut.DeckList.Count != 0)
             {
                 if (!DeckAccess.DeleteDeck(Username))
                 {
@@ -43,7 +43,7 @@ namespace MTCG.BL
             {
                 response.Status = 409;
                 response.Success = false;
-                response.Message = "Unknown Database Error.";
+                response.Message = "Deck could not be created.";
                 return response;
             }
 
@@ -69,7 +69,7 @@ namespace MTCG.BL
 
             Deck DeckOut = DeckAccess.GetDeck(Username);
 
-            if (DeckOut.DeckList.Count == 0 || DeckOut == null)
+            if (DeckOut == null || DeckOut.DeckList.Count == 0)
             {
                 response.Status = 404;
                 response.Success = false;

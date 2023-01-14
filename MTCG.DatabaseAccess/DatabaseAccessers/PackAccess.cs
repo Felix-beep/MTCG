@@ -10,30 +10,33 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class PackAccess
     {
-        public static bool CreatePack(string Username, List<string> CardNames)
+        public static bool CreatePack(string Username, List<string> CardNames, List<string> CardIDs)
         {
             if (CardNames.Count == 0) return false;
-            string text = "INSERT INTO \"Pack\" VALUES";
+            string text = "INSERT INTO \"Pack\" (\"Username\", \"Cardname\", \"PackID\", \"CardID\") VALUES";
             for (int i = 1; i <= CardNames.Count; i++)
             {
-                text += $" (@u{i}, @cn{i})";
+                text += $" (@u{i}, @cn{i}, @ti{i}, @ci{i})";
                 if (i != CardNames.Count)
                 {
                     text += ",";
                 }
             }
             var command = new NpgsqlCommand(text);
+            string PackId = Guid.NewGuid().ToString();
             for (int i = 1; i <= CardNames.Count; i++)
             {
                 command.Parameters.AddWithValue($"u{i}", Username);
                 command.Parameters.AddWithValue($"cn{i}", CardNames[i - 1]);
+                command.Parameters.AddWithValue($"ti{i}", PackId);
+                command.Parameters.AddWithValue($"ci{i}", CardIDs[i - 1]);
             }
             return DatabaseAccess.GetWriter(command);
         }
 
-        public static List<CardInstance> PopPack()
+        public static Tuple<string, List<CardInstance>> GetPack()
         {
-            string text = "SELECT ct.\"Cardname\", ct.\"Power\", ct.\"Type\", ct.\"Element\", ct.\"Faction\", p.\"PackID\" ";
+            string text = "SELECT ct.\"Cardname\", ct.\"Power\", ct.\"Type\", ct.\"Element\", ct.\"Faction\", p.\"PackID\", p.\"CardID\" ";
             text +=         "FROM \"Pack\" p ";
             text +=         "INNER JOIN \"CardTemplate\" ct ";
             text +=         "ON p.\"Cardname\" = ct.\"Cardname\" ";
@@ -54,7 +57,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             }
             while (reader.Read())
             {
-                string Name, Type, Element, Faction;
+                string Name, Type, Element, Faction, CardID;
                 int Power;
                 try
                 {
@@ -63,6 +66,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                     Type = reader.GetString(2);
                     Element = reader.GetString(3);
                     Faction = reader.GetString(4);
+                    CardID = reader.GetString(6);
                 } catch
                 {
                     Console.WriteLine("Error reading from Database.");
@@ -74,27 +78,26 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 if(PackID == "") PackID = reader.GetString(5);
 
                 CardTemplate BaseCard = new(Name, Power, Element, Type, Faction);
-                CardInstance CardInstance = new(BaseCard);
+                CardInstance CardInstance = new(BaseCard, CardID);
                 Cards.Add(CardInstance);
             }
             reader.Close();
 
-            if(!DeleteAllPacksWithID(PackID))
-            {
-                Console.WriteLine("Error when deleting pack by ID!");
-                return new();
-            }
-
             if(Cards.Count != 4)
             {
-                return PopPack();
+                if (!DeleteAllPacksWithID(PackID))
+                {
+                    Console.WriteLine("Error when deleting pack by ID!");
+                    return null;
+                }
+                return GetPack();
             }
 
-            return Cards;
+            return new Tuple<string, List<CardInstance>> (PackID, Cards);
         }
         public static bool DeleteAllPacksWithID(string PackID)
         {
-            string text = "DELETE FROM \"Pack\" WHERE \"Pack\".PackID = @pi;";
+            string text = "DELETE FROM \"Pack\" WHERE \"PackID\" = @pi;";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue($"pi", PackID);
             return DatabaseAccess.GetWriter(command);

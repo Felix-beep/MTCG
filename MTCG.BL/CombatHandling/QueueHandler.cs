@@ -7,7 +7,8 @@ namespace MTCG.BL.CombatHandling
 {
     public static class QueueHandler
     {
-        public static CurlResponse EnterQueue(string Username, string DeckID)
+
+        public static CurlResponse EnterQueue(string Username)
         {
             CurlResponse response = new();
             

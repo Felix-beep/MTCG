@@ -41,9 +41,9 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                 Elo = reader.GetInt32(1);
                 Wins = reader.GetInt32(2);
                 Losses = reader.GetInt32(3);
-            } catch
+            } catch (Exception ex)
             {
-                Console.WriteLine("Error reading from Database.");
+                Console.WriteLine("Error reading from Database: " + ex.Message);
                 reader.Close();
                 return null;
             }
@@ -76,9 +76,9 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                     Elo = reader.GetInt32(1);
                     Wins = reader.GetInt32(2);
                     Losses = reader.GetInt32(3);
-                } catch
+                } catch (Exception ex)
                 {
-                    Console.WriteLine("Error when reading from Database.");
+                    Console.WriteLine("Error when reading from Database: " + ex.Message);
                     reader.Close();
                     return null;
                 }

@@ -13,7 +13,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
         public static bool CreateDeck(string Username, List<string> Cards)
         {
             if (Cards.Count == 0) return false;
-            string text = "INSERT INTO \"Deck\" VALUES";
+            string text = "INSERT INTO \"Deck\" (\"Username\", \"CardID\") VALUES";
             for (int i = 1; i <= Cards.Count; i++)
             {
                 text += $" (@u{i}, @p{i})";
@@ -34,11 +34,12 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
         {
             string text = "SELECT \"Deck\".\"Username\", ";
             text +=         "\"CardInstance\".\"Rating\", \"CardInstance\".\"CardID\", ";
-            text +=         "\"CardTemplate\".\"Cardname\", \"CardTemplate\".\"Power\", \"CardTemplate\".\"Type\",  \"CardTemplate\".\"Faction\" ";
+            text +=         "\"CardTemplate\".\"Cardname\", \"CardTemplate\".\"Power\", \"CardTemplate\".\"Type\",  \"CardTemplate\".\"Faction\", \"CardTemplate\".\"Element\" ";
+            text +=         "FROM \"Deck\" ";
             text +=         "INNER JOIN \"CardInstance\" ON \"CardInstance\".\"CardID\" = \"Deck\".\"CardID\" ";
             text +=         "INNER JOIN \"CardTemplate\" ON \"CardTemplate\".\"Cardname\" = \"CardInstance\".\"Cardname\" ";
-            text +=         "WHERE \"Deck\".\"Username\" = @u";
-            text +=         "ORDER BY \"Deck\".\"ID\"";
+            text +=         "WHERE \"Deck\".\"Username\" = @u ";
+            text +=         "ORDER BY \"CardInstance\".\"Rating\"";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
             var reader = DatabaseAccess.GetReader(command);
@@ -61,11 +62,11 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
                     Name = reader.GetString(3);
                     Power = reader.GetInt32(4);
                     Type = reader.GetString(5);
-                    Element = reader.GetString(6);
-                    Faction = reader.GetString(7);
-                } catch
+                    Faction = reader.GetString(6);
+                    Element = reader.GetString(7);
+                } catch ( Exception ex)
                 {
-                    Console.WriteLine("Error reading from Database");
+                    Console.WriteLine("Error reading from Database: " + ex);
                     reader.Close();
                     return null;
                 }
@@ -81,7 +82,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteFromDeck(string Username, string cardId)
         {
-            string text = "DELETE FROM \"Deck\" WHERE \"USERNAME\" = @u AND \"CardID\" = @ci";
+            string text = "DELETE FROM \"Deck\" WHERE \"Username\" = @u AND \"CardID\" = @ci";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue($"u", Username);
             command.Parameters.AddWithValue($"ci", cardId);
@@ -90,7 +91,7 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 
         public static bool DeleteDeck(string Username)
         {
-            string text = "DELETE FROM \"Deck\" WHERE \"USERNAME\" = @u";
+            string text = "DELETE FROM \"Deck\" WHERE \"Username\" = @u";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue($"u", Username);
             return DatabaseAccess.GetWriter(command);

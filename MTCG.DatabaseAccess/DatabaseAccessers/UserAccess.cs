@@ -29,11 +29,13 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             var reader = DatabaseAccess.GetReader(command);
 
             if (reader == null) return null;
-            reader.Read();
-            if(!reader.HasRows) { 
-                reader.Close(); 
-                return null; 
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return null;
             }
+            reader.Read();
+            
             
             string Name, Password, Bio, Picture;
             int Gold;
@@ -62,6 +64,15 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("b", Bio);
             command.Parameters.AddWithValue("p", Picture);
+            command.Parameters.AddWithValue("u", Username);
+            return DatabaseAccess.GetWriter(command);
+        }
+
+        public static bool ChangeUserGold(string Username, int Gold)
+        {
+            string text = "UPDATE \"User\" SET \"Gold\" = @g WHERE \"Username\" = @u ;";
+            var command = new NpgsqlCommand(text);
+            command.Parameters.AddWithValue("g", Gold);
             command.Parameters.AddWithValue("u", Username);
             return DatabaseAccess.GetWriter(command);
         }

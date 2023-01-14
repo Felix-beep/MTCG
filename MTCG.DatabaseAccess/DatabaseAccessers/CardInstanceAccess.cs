@@ -10,8 +10,9 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class CardInstaceAccess
     {
-        public static bool CreateCardInstance(int Rating, string Cardname, string CardID)
+        public static bool CreateCardInstance(int Rating, string CardID, string Cardname)
         {
+            Console.WriteLine($"Adding card: {Rating}/{Cardname}/{CardID}");
             string text = "INSERT INTO \"CardInstance\" (\"Rating\", \"Cardname\", \"CardID\") VALUES ( @r, @cn, @ci)";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("cn", Cardname);

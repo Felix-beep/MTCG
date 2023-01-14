@@ -14,7 +14,7 @@ namespace MTCG.BL
 {
     public static class TradeHandler
     {
-        public static CurlResponse CreateTrade(string Username, string Id, string CardId, string Name, int Rating)
+        public static CurlResponse CreateTrade(string Username, string Id, string CardId, int Rating)
         {
             CurlResponse response = new();
 
@@ -36,7 +36,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            if(TradeAccess.CreateTrade(Username, CardId, Name, Id, Rating))
+            if(TradeAccess.CreateTrade(Username, CardId, Id, Rating))
             {
                 response.Status = 409;
                 response.Success = false;
@@ -77,7 +77,7 @@ namespace MTCG.BL
 
             CardInstance CardToGive = CardInstaceAccess.GetCardInstance(CardId);
 
-            if(CardToGive.Rating != Trade.Rating)
+            if(CardToGive.Rating <= Trade.Rating)
             {
                 response.Status = 403;
                 response.Success = false;

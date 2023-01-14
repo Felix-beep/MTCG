@@ -10,13 +10,12 @@ namespace MTCG.DatabaseAccess.DatabaseAccessers
 {
     public static class TradeAccess
     {
-        public static bool CreateTrade(string Username, string CardID, string Cardname, string TradeID, int Rating)
+        public static bool CreateTrade(string Username, string CardID, string TradeID, int Rating)
         {
-            string text = "INSERT INTO \"CreateTrade\" VALUES ( @u, @ci, @cn, @ti, @r)";
+            string text = "INSERT INTO \"CreateTrade\" VALUES ( @u, @ci, @ti, @r)";
             var command = new NpgsqlCommand(text);
             command.Parameters.AddWithValue("u", Username);
             command.Parameters.AddWithValue("ci", CardID);
-            command.Parameters.AddWithValue("cn", Cardname);
             command.Parameters.AddWithValue("ti", TradeID);
             command.Parameters.AddWithValue("r", Rating);
             return DatabaseAccess.GetWriter(command);

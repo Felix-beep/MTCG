@@ -13,11 +13,13 @@ namespace MTCG.BL
     public static class TokenHandler
     {
         private static Dictionary<string, string> Tokens = new();
-        public static bool CreateToken(string Username)
+        public static string CreateToken(string Username)
         {
-            bool response = true;
+            string response = null;
 
             Guid uuid = Guid.NewGuid();
+
+            Console.WriteLine($"Adding Token for {Username}");
 
             if(Tokens.ContainsKey(Username))
             {
@@ -27,12 +29,13 @@ namespace MTCG.BL
                 Tokens.Add(Username, uuid.ToString());
             }
 
-            return response;
+            return uuid.ToString();
         }
 
         public static string AuthenticateUser(string Token)
         {
             string Username = Token.Replace("-mtcgToken", "");
+            Console.WriteLine($"Looking for {Token}");
             if(Tokens.ContainsKey(Username)) { return Username; }
 
             if (Tokens.ContainsValue(Token)) {

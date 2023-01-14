@@ -26,12 +26,12 @@ namespace MTCG.MODELS
             this.EffectivePower = CalculateEffectivePower();
         }
 
-        public CardInstance(CardTemplate BaseCard) 
+        public CardInstance(CardTemplate BaseCard, string CardID) 
         {
             this.CardName = BaseCard.Name;
             this.Rating = GetRandomRating();
             Guid myuuid = Guid.NewGuid();
-            this.ID = myuuid.ToString();
+            this.ID = CardID;
             this.BaseCard = BaseCard;
             this.EffectivePower = CalculateEffectivePower();
         }

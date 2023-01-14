@@ -13,11 +13,11 @@ namespace MTCG.BL
 {
     public static class PackHandler
     {
-        public static CurlResponse CreatePackage(string Username, List<Tuple<string, string>> CardIds)
+        public static CurlResponse CreatePackage(string Username, List<Tuple<string, string>> CardNamesAndIds)
         {
             CurlResponse response = new();
 
-            foreach(var Pair in CardIds)
+            foreach(var Pair in CardNamesAndIds)
             {
                 if (CardInstaceAccess.GetCardInstance(Pair.Item2) != null)
                 {
@@ -29,8 +29,9 @@ namespace MTCG.BL
             }
 
             List<string> validCardIds = new();
+            List<string> validCardNames = new();
 
-            foreach (var Pair in CardIds)
+            foreach (var Pair in CardNamesAndIds)
             {
                 if (!CardInstaceAccess.CreateCardInstance(CardInstance.GetRandomRating(), Pair.Item1, Pair.Item2))
                 {
@@ -40,10 +41,11 @@ namespace MTCG.BL
                     return response;
                 }
 
-                validCardIds.Add(Pair.Item2);
+                validCardIds.Add(Pair.Item1);
+                validCardNames.Add(Pair.Item2);
             }
 
-            if (!PackAccess.CreatePack(Username, validCardIds))
+            if (!PackAccess.CreatePack(Username, validCardNames, validCardIds))
             {
                 response.Status = 409;
                 response.Success = false;
@@ -79,7 +81,7 @@ namespace MTCG.BL
                 return response;
             }
 
-            List<CardInstance> Cards = PackAccess.PopPack();
+            Tuple<string, List<CardInstance>> Cards = PackAccess.GetPack();
 
             if(Cards == null)
             {
@@ -89,9 +91,27 @@ namespace MTCG.BL
                 return response;
             }
 
+            if (!UserAccess.ChangeUserGold(Buyer.Name, Buyer.Gold - 5))
+            {
+                response.Status = 403;
+                response.Success = false;
+                response.Message = "Unknown Database Error.";
+                return response;
+            }
+
+            PackAccess.DeleteAllPacksWithID(Cards.Item1);
+
+            List<string> CardIds = new();
+            foreach(var inst in Cards.Item2)
+            {
+                CardIds.Add(inst.ID);
+            }
+
+            StackAccess.AddToStack(Buyer.Name, CardIds);
+
             JsonArray CardObjects = new();
             
-            foreach(CardInstance card in Cards)
+            foreach(CardInstance card in Cards.Item2)
             {
                 JsonObject JsonCard = new()
                 {
