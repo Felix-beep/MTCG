@@ -3,6 +3,7 @@ using MTCG.DatabaseAccess.DatabaseAccessers;
 using MTCG.MODELS;
 using System.Numerics;
 using System.Text.Json.Nodes;
+using System.Threading;
 
 namespace MTCG.BL.CombatHandling
 {
@@ -47,8 +48,10 @@ namespace MTCG.BL.CombatHandling
 
             if (QueueSpot.Open)
             {
-                QueueSpot.MutexFinished.WaitOne();
-                QueueSpot.MutexFinished.ReleaseMutex();
+                while(QueueSpot.Finished == false)
+                {
+                    Thread.Sleep(100);
+                }
                 if (QueueSpot.Winner == 1) Won = true;
                 if (Won)
                 {
@@ -100,7 +103,6 @@ namespace MTCG.BL.CombatHandling
                         return response;
                     }
                 }
-                QueueSpot.MutexFinished.ReleaseMutex();
             }
 
             if (QueueSpot == null || !QueueSpot.Finished)

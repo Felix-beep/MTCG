@@ -17,7 +17,7 @@ namespace MTCG.Test.UnitTests.Database
         public void Setup()
         {
             UserAccess.CreateUser(UserIn.Name, UserIn.Password);
-            UserAccess.EditUser(UserIn.Name, UserIn.Bio, UserIn.Image);
+            UserAccess.EditUser("Elu", UserIn.Name, UserIn.Bio, UserIn.Image);
             UserOut = UserAccess.GetUser(UserIn.Name);
         }
 

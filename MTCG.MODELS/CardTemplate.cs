@@ -22,8 +22,8 @@ namespace MTCG.MODELS
             switch (element)
             {
                 case "Water": Element = Elements.Water; break;
-                case "Fire": Element = Elements.Water; break;
-                case "Nature": Element = Elements.Water; break;
+                case "Fire": Element = Elements.Fire; break;
+                case "Nature": Element = Elements.Nature; break;
                 default: Element = Elements.NoElement; break;
             }
             switch (type)

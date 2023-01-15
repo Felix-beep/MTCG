@@ -12,22 +12,89 @@ namespace MTCG.BL
     {
         public static int Compare(CardInstance Card1, CardInstance Card2)
         {
-            float PCard1 = Card1.EffectivePower * ElementMultiplier(Card1.BaseCard, Card2.BaseCard) * FactionMultiplier(Card1.BaseCard, Card2.BaseCard);
-            float PCard2 = Card2.EffectivePower * ElementMultiplier(Card2.BaseCard, Card1.BaseCard) * FactionMultiplier(Card2.BaseCard, Card1.BaseCard);
-            Console.WriteLine($"PlayerA: {Card1.BaseCard.Name} ({PCard1}) vs PlayerB: {Card2.BaseCard.Name} ({PCard2})");
-            if ( PCard1 < PCard2 )
+            List<string> Outputs = new();
+            string string1;
+            string string2;
+            string StringWhole;
+
+            int BasePower1 = Card1.BaseCard.Power;
+            int BasePower2 = Card2.BaseCard.Power;
+
+
+            double RatingMultiplier1 = Math.Round(1 + ((double)Card1.Rating)/100, 2);
+            double RatingMultiplier2 = Math.Round(1 + ((double)Card2.Rating)/100, 2);
+
+            double ElementMultiplier1 = ElementMultiplier(Card1.BaseCard, Card2.BaseCard);
+            double ElementMultiplier2 = ElementMultiplier(Card2.BaseCard, Card1.BaseCard);
+
+            double FactionMultiplier1 = FactionMultiplier(Card1.BaseCard, Card2.BaseCard);
+            double FactionMultiplier2 = FactionMultiplier(Card2.BaseCard, Card1.BaseCard);
+
+
+            string[] Table = new string[3];
+
+            AddTableRow(Table, "Power", $"{BasePower1}", $"{BasePower2}");
+            AddTableRow(Table, "Rating", $"x{RatingMultiplier1}", $"x{RatingMultiplier2}");
+            AddTableRow(Table, "Element", $"x{ElementMultiplier1}", $"x{ElementMultiplier2}");
+            AddTableRow(Table, "Faction", $"x{FactionMultiplier1}", $"x{FactionMultiplier2}");
+
+            int totalPower1 = (int)Math.Floor(BasePower1 * RatingMultiplier1 * ElementMultiplier1 * FactionMultiplier1);
+            int totalPower2 = (int)Math.Floor(BasePower2 * RatingMultiplier2 * ElementMultiplier2 * FactionMultiplier2);
+
+            AddTableRow(Table, "Total", $"={totalPower1}", $"={totalPower2}");
+
+            Outputs.Add(Table[0]);
+            Outputs.Add(Table[1]);
+            Outputs.Add(Table[2]);
+
+            int Winner = (totalPower1 > totalPower2) ? 1 : 2;
+            if (totalPower1 == totalPower2) Winner = 0;
+
+            foreach(string Output in Outputs){
+                Console.WriteLine(Output);
+            }
+
+            return Winner;
+        }
+
+        public static string[] AddTableRow(string[] InputString, string Header, string Input1, string Input2)
+        {
+            int lh = Header.Length;
+            int i1h = Input1.Length;
+            int i2h = Input2.Length;
+
+            int length = GetBiggestNumber(lh, i1h, i2h) + 1;
+
+            InputString[0] += fillStringWithSpaces(Header, length) + " | ";
+            InputString[1] += fillStringWithSpaces(Input1, length) + " | ";
+            InputString[2] += fillStringWithSpaces(Input2, length) + " | ";
+
+            return InputString;
+        }
+
+        public static string fillStringWithSpaces(string input, int length)
+        {
+            for(int i = input.Length; i < length; i++)
             {
-                return 1;
-            } else if (PCard1 > PCard2)
+                input += " ";
+            }
+            return input;
+        }
+
+        public static int GetBiggestNumber(int a, int b, int c)
+        {
+            if (a <= b)
             {
-                return -1;
-            } else // (PCard1 == PCard2)
+                if (b <= c) return c;
+                else return b;
+            } else
             {
-                return 0;
+                if (a <= c) return c;
+                else return a;
             }
         }
 
-        public static float ElementMultiplier(CardTemplate Attacker, CardTemplate Defender)
+        public static double ElementMultiplier(CardTemplate Attacker, CardTemplate Defender)
         {
             if(Attacker.Type == Types.Spell || Defender.Type == Types.Spell)
             {
@@ -55,7 +122,7 @@ namespace MTCG.BL
             }
             return 1;
         }
-        public static float FactionMultiplier(CardTemplate Attacker, CardTemplate Defender)
+        public static double FactionMultiplier(CardTemplate Attacker, CardTemplate Defender)
         {
             if (Attacker.Faction == Factions.Goblin && Defender.Faction == Factions.Dragon)
             {

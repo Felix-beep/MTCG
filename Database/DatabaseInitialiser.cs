@@ -372,39 +372,39 @@ namespace MTCG.Database
             {
                 Console.WriteLine("\nAdding Base Values...");
                 string commandString =
-                  @"INSERT INTO ""CardTemplate"" VALUES ( 'Goblin Lackey', 15, 'Fire', 'Monster', 'Goblin' );"
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Goblin Matron', 25, 'Fire', 'Monster', 'Goblin' );"
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Goblin Warchief', 30, 'Fire', 'Monster', 'Goblin'); "
+                  @"INSERT INTO ""CardTemplate"" VALUES ( 'Goblin Lackey', 15, 'Monster', 'Goblin', 'Fire');"
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Goblin Matron', 25, 'Monster', 'Goblin', 'Fire');"
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Goblin Warchief', 30, 'Monster', 'Goblin', 'Fire'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Lava Hound', 25, 'Fire', 'Monster', 'NoFaction'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Lava Hound', 25, 'Monster', 'NoFaction', 'Fire'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Balefire Dragon', 40, 'Fire', 'Monster', 'Dragon'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Balefire Dragon', 40, 'Monster', 'Dragon', 'Fire'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Roast', 20, 'Fire', 'Spell', 'Goblin'); "
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Lava Rain', 30, 'Fire', 'Spell', 'NoFaction'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Roast', 20, 'Spell', 'Goblin', 'Fire'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Lava Rain', 30, 'Spell', 'NoFaction', 'Fire'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Wood Elves', 20, 'Nature', 'Monster', 'Elf'); "
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Big Game Huntress', 25, 'Nature', 'Monster', 'Elf'); "
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Elvish Archdruid', 30, 'Nature', 'Monster', 'Elf'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Wood Elves', 20, 'Monster', 'Elf', 'Nature'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Big Game Huntress', 25, 'Monster', 'Elf', 'Nature'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Elvish Archdruid', 30, 'Monster', 'Elf', 'Nature'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Oakheart Dryad', 25, 'Nature', 'Monster', 'NoFaction'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Oakheart Dryad', 25, 'Monster', 'NoFaction', 'Nature'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Primordial Hydra',  40, 'Nature', 'Monster', 'Hydra'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Primordial Hydra',  40, 'Monster', 'Hydra', 'Nature'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Tangletrap', 20, 'Nature', 'Spell', 'Elf'); "
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Naturalize', 30, 'Nature', 'Monster', 'NoFaction'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Tangletrap', 20, 'Spell', 'Elf', 'Nature'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Naturalize', 30, 'Spell', 'NoFaction', 'Nature'); "
 
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'River Mermaid', 20, 'Water', 'Monster', 'Mermaid'); "
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Mermaid Trickster', 25, 'Water', 'Monster', 'Mermaid'); "
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Shipwreck Mermaid', 30, 'Water', 'Monster', 'Mermaid'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'River Mermaid', 20, 'Monster', 'Mermaid', 'Water'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Mermaid Trickster', 25, 'Monster', 'Mermaid', 'Water'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Shipwreck Mermaid', 30, 'Monster', 'Mermaid', 'Water'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Whitewater Naiad', 25, 'Water', 'Monster', 'NoFaction'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Whitewater Naiad', 25, 'Monster', 'NoFaction', 'Water'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Shipbreaker Kraken', 40, 'Water', 'Monster', 'Kraken'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Shipbreaker Kraken', 40, 'Monster', 'Kraken', 'Water'); "
 
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Water Spear', 20, 'Water', 'Monster', 'Mermaid'); "
-                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Water Vortex', 30, 'Water', 'Monster', 'NoFaction'); ";
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Water Spear', 20, 'Spell', 'Mermaid', 'Water'); "
+                + @"INSERT INTO ""CardTemplate"" VALUES ( 'Water Vortex', 30, 'Spell', 'NoFaction', 'Water'); ";
 
                 using (var Command = new NpgsqlCommand())
                 {

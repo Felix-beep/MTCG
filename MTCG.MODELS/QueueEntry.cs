@@ -19,7 +19,7 @@ namespace MTCG.MODELS
         public bool Finished { get; set; }
         public int Winner { get; set; }
 
-        public Mutex MutexFinished { get; set; } = new Mutex();
+        public List<string> Logs { get; set; }
 
         public QueueEntry(User user1, Deck deck1)
         {
@@ -27,7 +27,6 @@ namespace MTCG.MODELS
             Deck1 = deck1;
             Open = true;
             Finished = false;
-            MutexFinished.WaitOne();
         }
 
         public void Join(User user2, Deck deck2)
