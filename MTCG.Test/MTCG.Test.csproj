@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Database\MTCG.Database.csproj" />
     <ProjectReference Include="..\MTCG.BL\MTCG.BL.csproj" />
     <ProjectReference Include="..\MTCG.DatabaseAccess\MTCG.DatabaseAccess.csproj" />
     <ProjectReference Include="..\MTCG.MODELS\MTCG.MODELS.csproj" />

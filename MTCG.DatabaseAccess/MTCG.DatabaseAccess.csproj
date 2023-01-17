@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Database\MTCG.Database.csproj" />
+    <ProjectReference Include="..\MTCG.Database\MTCG.Database.csproj" />
     <ProjectReference Include="..\MTCG.MODELS\MTCG.MODELS.csproj" />
   </ItemGroup>
 
