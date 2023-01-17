@@ -39,7 +39,7 @@ namespace MTCG.Test.UnitTests.Combat
         public void TestEloMovement()
         {
             Assert.AreEqual(950, Player1Stats.Elo);
-            Assert.AreEqual(950, Player1Stats.Elo);
+            Assert.AreEqual(50, Player2Stats.Elo);
         }
 
         [Test]
